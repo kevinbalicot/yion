@@ -1,0 +1,16 @@
+{
+  "name": "yion",
+  "version": "0.1.0",
+  "description": "The most yionly node framework",
+  "main": "index.js",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/kevinbalicot/yion.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Kevin Balicot <kevinbalicot@gmail.com>",
+  "license": "ISC"
+}
