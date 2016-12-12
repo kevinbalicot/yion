@@ -8,6 +8,12 @@ The most yionly node framework.
 $ npm install --save yion
 ```
 
+## Demo
+
+```
+$ npm start
+```
+
 ## Usage
 
 Bootstrap
