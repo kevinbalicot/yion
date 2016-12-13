@@ -25,7 +25,7 @@ const app = createApp();
 const server = createServer(app);
 
 app.get('/', (req, res) => {
-    res.set('Content-Type', 'text/html; charset=utf-8').end('Hello world!');
+    res.set('Content-Type', 'text/html; charset=utf-8').send('Hello world!');
 });
 
 server.listen(8080);
