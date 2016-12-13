@@ -21,9 +21,8 @@ app.post('/', (req, res) => {
         return res.status(500).send();
     }
 
-    res.set('Content-Type', req.body.file.mimetype);
-    res.set('Content-Length', req.body.file.length);
-    res.send(req.body.file.data);
+    const file = req.body.file;
+    res.sendFile(file.filepath, file.filename, file.mimetype);
 });
 
 const port = process.env.NODE_PORT || 8080;
