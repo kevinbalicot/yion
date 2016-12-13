@@ -1,4 +1,5 @@
 const { createServer, createApp } = require('./index');
+const fs = require('fs');
 
 const app = createApp();
 const server = createServer(app);
@@ -16,6 +17,10 @@ app.get('/', (req, res) => {
  * Send file with fieldname "file"
  */
 app.post('/', (req, res) => {
+    if (!req.body.file) {
+        return res.status(500).send();
+    }
+
     res.set('Content-Type', req.body.file.mimetype);
     res.set('Content-Length', req.body.file.length);
     res.send(req.body.file.data);
