@@ -35,7 +35,7 @@ const createServer = (app) => http.createServer((request, result) => {
 
         bus.on('finish', () => {
             app.dispatch(req, res);
-            tmpFiles.forEach(file => fs.unlink(file));
+            tmpFiles.forEach(file => fs.unlink(file, () => {}));
         });
 
         request.pipe(bus);
