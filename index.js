@@ -19,8 +19,7 @@ const createServer = (app) => http.createServer((request, result) => {
 
         bus.on('file', (fieldname, file, filename, encoding, mimetype) => {
             const saveTo = path.join(os.tmpdir(), path.basename(fieldname));
-            let fileAlreadyExists = tmpFiles.find(file => saveTo === saveTo);
-            if (!fileAlreadyExists) {
+            if (!tmpFiles.find(f => f == saveTo)) {
                 tmpFiles.push(saveTo);
             }
             file.pipe(fs.createWriteStream(saveTo));

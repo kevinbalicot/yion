@@ -94,3 +94,4 @@ app.link('/img', __dirname + '/images');
  * `res.send(data = null, encoding = 'utf-8')` : send response
  * `res.json(data)` : send json response
  * `res.redirect(location, code = 301)` : send redirect response
+ * `res.sendFile(filepath, filename, mimetype = "text/plain", attachment = true)` : Send file
