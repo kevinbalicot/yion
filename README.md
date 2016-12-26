@@ -18,7 +18,7 @@ $ npm start
 
 Bootstrap
 
-```node
+```javascript
 const { createApp, createServer } = require('yion');
 
 const app = createApp();
@@ -41,7 +41,7 @@ server.listen(8080);
 
 #### Parameters
 
-```node
+```javascript
 app.get('/article/:id', (res, res) => {
     let id = req.params.id;
 });
@@ -49,7 +49,7 @@ app.get('/article/:id', (res, res) => {
 
 #### Body
 
-```node
+```javascript
 app.post('/article', (res, res) => {
     let title = req.body.title || null;
     let content = req.body.content || null;
@@ -59,7 +59,7 @@ Note : The body parser is very simple, it parse only `x-www-form-urlencoded` dat
 
 #### Queries
 
-```node
+```javascript
 // GET /articles?order=title&direction=asc
 
 app.get('/article', (res, res) => {
@@ -70,7 +70,7 @@ app.get('/article', (res, res) => {
 
 ### Middlewares
 
-```node
+```javascript
 app.use((req, res, next) => {
     // do stuff
 
@@ -80,7 +80,7 @@ app.use((req, res, next) => {
 
 ### Assets
 
-```node
+```javascript
 app.link('/css', __dirname + '/styles');
 app.link('/js', __dirname + '/js');
 app.link('/img', __dirname + '/images');
@@ -88,7 +88,7 @@ app.link('/img', __dirname + '/images');
 
 ### Plugins
 
-```node
+```javascript
 const { createApp, createServer } = require('yion');
 const bodyparserPlugin = require('yion-bodyparser');
 

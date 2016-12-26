@@ -1,5 +1,5 @@
 const { createServer, createApp } = require('./index');
-//const bodyparser = require('yion-bodyparser');
+//const bodyparser = require('yion-body-parser');
 
 const plugins = [/*bodyparser*/];
 const app = createApp();
