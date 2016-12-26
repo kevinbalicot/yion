@@ -1,46 +1,32 @@
 const http = require('http');
-const os = require('os');
-const fs = require('fs');
-const path = require('path');
-const Busboy = require('busboy');
 
 const Request = require('./lib/request');
 const Response = require('./lib/response');
 const Application = require('./lib/application');
 
+const defaultPlugin = {
+    handle: (req, res, app) => {
+        const request = req.original;
+
+        if (request.method === 'POST') {
+            request.on('data', chunk => req.parseBody(chunk.toString()));
+            request.on('end', () => app.dispatch(req, res));
+        } else {
+            app.dispatch(req, res);
+        }
+    }
+}
+
 const createApp = () => new Application();
-const createServer = (app) => http.createServer((request, result) => {
+const createServer = (app, plugins = []) => http.createServer((request, result) => {
     let req = new Request(request);
     let res = new Response(result);
 
-    if (request.method === 'POST') {
-        const bus = new Busboy({ headers: request.headers });
-        const tmpFiles = [];
-
-        bus.on('file', (fieldname, file, filename, encoding, mimetype) => {
-            const saveTo = path.join(os.tmpdir(), path.basename(fieldname));
-            if (!tmpFiles.find(f => f == saveTo)) {
-                tmpFiles.push(saveTo);
-            }
-            file.pipe(fs.createWriteStream(saveTo));
-            file.on('data', data => {
-                req.body[fieldname] = { filename, encoding, mimetype, filepath: saveTo, length: data.length, data };
-            });
-        });
-
-        bus.on('field', (fieldname, value) => {
-            req.body[fieldname] = value;
-        });
-
-        bus.on('finish', () => {
-            app.dispatch(req, res);
-            tmpFiles.forEach(file => fs.unlink(file, () => {}));
-        });
-
-        request.pipe(bus);
-    } else {
-        app.dispatch(req, res);
+    if (0 === plugins.length) {
+        plugins = [defaultPlugin];
     }
+
+    plugins.forEach(plugin => plugin.handle(req, res, app));
 });
 
 module.exports = { createApp, createServer };

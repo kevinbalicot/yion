@@ -1,6 +1,6 @@
 {
   "name": "yion",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "The most yionly node framework",
   "main": "index.js",
   "repository": {
@@ -13,8 +13,5 @@
   },
   "keywords": [],
   "author": "Kevin Balicot <kevinbalicot@gmail.com>",
-  "license": "ISC",
-  "dependencies": {
-    "busboy": "^0.2.13"
-  }
+  "license": "MIT"
 }

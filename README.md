@@ -32,6 +32,7 @@ server.listen(8080);
 ```
 
 ### Router
+
  * `app.get(pattern, callback);`
  * `app.post(pattern, callback);`
  * `app.put(pattern, callback);`
@@ -54,6 +55,7 @@ app.post('/article', (res, res) => {
     let content = req.body.content || null;
 });
 ```
+Note : The body parser is very simple, it parse only `x-www-form-urlencoded` data. Please see https://www.npmjs.com/package/yion-bodyparser for more features
 
 #### Queries
 
@@ -84,7 +86,45 @@ app.link('/js', __dirname + '/js');
 app.link('/img', __dirname + '/images');
 ```
 
+### Plugins
+
+```node
+const { createApp, createServer } = require('yion');
+const bodyparserPlugin = require('yion-bodyparser');
+
+const app = createApp();
+const server = createServer(app, [bodyparserPlugin]);
+
+app.post('/file', (req, res) => {
+    if (!req.body.file) {
+        return res.status(500).send();
+    }
+
+    const file = req.body.file;
+    res.sendFile(file.filepath, file.filename, file.mimetype);
+});
+
+server.listen(8080);
+```
+
+If you want to create a plugin, make a simple object with a `handle` function.
+
+Exemple :
+```js
+const myPlugin = {
+    handle: (req, res, app) => {
+        // make stuff
+        app.dispatch(req, res); // continue process
+    }
+};
+```
+
 ### API Reference
+
+#### Factories
+
+* `createApp()` : create a new application
+* `createServer(app, [])` : create a new server with an application and an array of plugins (optional)
 
 #### Response
 
