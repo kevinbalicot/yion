@@ -126,6 +126,11 @@ const myPlugin = {
 * `createApp()` : create a new application
 * `createServer(app, [])` : create a new server with an application and an array of plugins (optional)
 
+#### Request
+
+ * `req.has(key)` : check if there are parameter or attribute with `key`
+ * `req.get(key)` : get value of parameter or attribute with `key`
+
 #### Response
 
  * `res.status(code, message = null)` : change HTTP status
