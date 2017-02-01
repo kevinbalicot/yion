@@ -19,6 +19,14 @@ const defaultPlugin = {
 
 const createApp = () => new Application();
 const createServer = (app, plugins = []) => http.createServer((request, result) => {
+    console.time('request-time');
+
+    result.on('finish', () => {
+        if (!res.matched && !res.end) res.status(404, 'Not found').send('Not found');
+        console.log(`${new Date()} - ${req.ip} - ${req.method} ${req.url} => ${res.original.statusCode} : ${res.original.statusMessage}`);
+        console.timeEnd('request-time');
+    });
+
     let req = new Request(request);
     let res = new Response(result);
 

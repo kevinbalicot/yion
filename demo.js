@@ -7,7 +7,10 @@ const server = createServer(app, plugins);
 
 app.use((req, res, next) => {
     console.log(req.body);
-    next();
+
+    return new Promise((resolve, reject) => {
+        setTimeout(() => resolve(), 1000);
+    }).then(() => next());
 });
 
 app.get('/', (req, res) => {
