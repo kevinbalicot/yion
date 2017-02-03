@@ -1,7 +1,7 @@
 const { createServer, createApp } = require('./index');
-//const bodyparser = require('yion-body-parser');
+const bodyparser = require('yion-body-parser');
 
-const plugins = [/*bodyparser*/];
+const plugins = [bodyparser];
 const app = createApp();
 const server = createServer(app, plugins);
 
@@ -25,14 +25,14 @@ app.post('/', (req, res) => {
  * Send file with fieldname "file"
  * If you want to test the send file feature, please install yion-bodyparser plugin
  */
-/*app.post('/file', (req, res) => {
+app.post('/file', (req, res) => {
     if (!req.body.file) {
         return res.status(500).send();
     }
 
     const file = req.body.file;
     res.sendFile(file.filepath, file.filename, file.mimetype);
-});*/
+});
 
 const port = process.env.NODE_PORT || 8080;
 server.listen(port);
