@@ -106,7 +106,7 @@ app.link('/img', __dirname + '/images');
 
 ```javascript
 const { createApp, createServer } = require('yion');
-const bodyparserPlugin = require('yion-bodyparser');
+const bodyparserPlugin = require('yion-body-parser');
 
 const app = createApp();
 const server = createServer(app, [bodyparserPlugin]);
@@ -125,15 +125,39 @@ server.listen(8080);
 
 If you want to create a plugin, make a simple object with a `handle` function.
 
-Exemple :
+There are 2 types of plugin :
+
+Plugin handles POST/GET request, example :
 ```js
-const myPlugin = {
+const myPostPlugin = {
     handle: (req, res, app) => {
-        // make stuff
-        app.dispatch(req, res); // continue process
+        const request = req.original; // get Node Request
+        if (request.method === 'POST') {
+            // make stuff
+        }
+
+        app.dispatch(req, res); // dispatch request, plugins loop stop
     }
 };
 ```
+
+And plugin add features into application, example :
+
+```js
+const moment = require('moment');
+
+const myMomentPlugin = {
+    handle: (req, res, app) => {
+        req.moment = (date) => moment(date);
+        // don't use app.dispatch(), because other plugins need to be launched
+    }
+};
+```
+
+#### Plugins :
+
+* `yion-body-parser` : Body parser https://www.npmjs.com/package/yion-body-parser
+* `yion-pug` : Pug plugin (add `res.render(filename, data)`) https://www.npmjs.com/package/yion-pug
 
 ### API Reference
 

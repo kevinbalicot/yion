@@ -7,15 +7,6 @@ const Application = require('./lib/application');
 const defaultPlugin = {
     handle: (req, res, app) => {
         const request = req.original;
-        if (request.method !== 'POST') {
-            app.dispatch(req, res);
-        }
-    }
-};
-
-const defaultParseBodyPlugin = {
-    handle: (req, res, app) => {
-        const request = req.original;
         if (request.method === 'POST') {
             request.on('data', chunk => req.parseBody(chunk.toString()));
             request.on('end', () => app.dispatch(req, res));
@@ -29,11 +20,7 @@ const createApp = () => new Application();
 const createServer = (app, plugins = []) => {
     const server = http.createServer();
 
-    if (0 === plugins.length) {
-        plugins = [defaultParseBodyPlugin];
-    } else {
-        plugins.push(defaultPlugin);
-    }
+    plugins.push(defaultPlugin);
 
     server.on('request', (request, response) => {
         console.time('request-time');
@@ -48,11 +35,14 @@ const createServer = (app, plugins = []) => {
         let res = new Response(response);
 
         try {
-            plugins.forEach(plugin => plugin.handle(req, res, app));
-        } catch (e) {
-            console.log(e);
+            plugins.forEach(plugin => {
+                if (!req.dispatching) {
+                    plugin.handle(req, res, app);
+                }
+            });
+        } catch (error) {
+            res.status(500).send(`${error.name} : ${error.message} \n ${error.stack}`);
         }
-
     });
 
     return server;

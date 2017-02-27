@@ -3,7 +3,7 @@ const bodyparser = require('yion-body-parser');
 
 const plugins = [bodyparser];
 const app = createApp();
-const server = createServer(app, plugins);
+const server = createServer(app);
 
 app.use((req, res, next) => {
     console.log(req.body);
