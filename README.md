@@ -55,7 +55,7 @@ app.post('/article', (res, res) => {
     let content = req.body.content || null;
 });
 ```
-Note : The body parser is very simple, it parse only `x-www-form-urlencoded` data. Please see https://www.npmjs.com/package/yion-bodyparser for more features
+Note : The body parser is very simple, it parse only `x-www-form-urlencoded` data. Please see https://www.npmjs.com/package/yion-body-parser for more features
 
 #### Queries
 
@@ -75,6 +75,22 @@ app.use((req, res, next) => {
     // do stuff
 
     next();
+});
+```
+You can pass arguments to next middleware.
+
+```javascript
+app.use((req, res, next) => {
+    // do stuff
+
+    next('foo', { foo: 'bar' });
+});
+
+app.get('/', (req, res, next, arg1, arg2) => {
+    console.log(arg1); // 'foo'
+    console.log(arg2); // { foo: 'bar' }
+
+    // do stuff
 });
 ```
 

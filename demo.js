@@ -13,8 +13,12 @@ app.use((req, res, next) => {
     }).then(() => next());
 });
 
-app.get('/', (req, res) => {
-    res.send('Hello world');
+app.get('/', (req, res, next) => {
+    next({ message: 'Hello world!' });
+});
+
+app.get('/', (req, res, next, message) => {
+    res.json(message);
 });
 
 app.post('/', (req, res) => {
