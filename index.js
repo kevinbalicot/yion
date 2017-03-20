@@ -20,7 +20,9 @@ const createApp = () => new Application();
 const createServer = (app, plugins = []) => {
     const server = http.createServer();
 
-    plugins.push(defaultPlugin);
+    if (!plugins.find(plugin => plugin.type === 'post')) {
+        plugins.push(defaultPlugin);
+    }
 
     server.on('request', (request, response) => {
         console.time('request-time');

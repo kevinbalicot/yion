@@ -127,9 +127,10 @@ If you want to create a plugin, make a simple object with a `handle` function.
 
 There are 2 types of plugin :
 
-Plugin handles POST/GET request, example :
+Plugin handles POST/GET request, example (⚠️  type has to be `post`):
 ```js
 const myPostPlugin = {
+    type: 'post',
     handle: (req, res, app) => {
         const request = req.original; // get Node Request
         if (request.method === 'POST') {
@@ -147,6 +148,7 @@ And plugin add features into application, example :
 const moment = require('moment');
 
 const myMomentPlugin = {
+    type: 'whatever',
     handle: (req, res, app) => {
         req.moment = (date) => moment(date);
         // don't use app.dispatch(), because other plugins need to be launched
