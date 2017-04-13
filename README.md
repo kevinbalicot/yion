@@ -155,7 +155,7 @@ const myMomentPlugin = {
 * `yion-body-parser` : Body parser [https://www.npmjs.com/package/yion-body-parser](https://www.npmjs.com/package/yion-body-parser)
 * `yion-pug` : Pug plugin (add `res.render(filename, data)`) [https://www.npmjs.com/package/yion-pug](https://www.npmjs.com/package/yion-pug)
 
-### Document and API Reference
+### Documentations and API Reference
 
 You can see documentations [here](https://github.com/kevinbalicot/yion/blob/master/docs/documentations.md). Full API reference [here](https://kevinbalicot.github.io/yion/#api). Also see [yion websie](https://kevinbalicot.github.io/yion/)
 
