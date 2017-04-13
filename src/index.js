@@ -1,8 +1,8 @@
 const http = require('http');
 
-const Request = require('./lib/request');
-const Response = require('./lib/response');
-const Application = require('./lib/application');
+const Request = require('./request');
+const Response = require('./response');
+const Application = require('./application');
 
 const defaultPlugin = {
     handle: (req, res, app) => {
@@ -16,7 +16,25 @@ const defaultPlugin = {
     }
 };
 
+/**
+ * Yion module
+ * @module yion
+ */
+
+/**
+ * @return {Application}
+ * @alias module:yion
+ */
 const createApp = () => new Application();
+
+/**
+ * @param {Application} app
+ * @param {Array} [plugins=[]]
+ *
+ * @return {HttpServer}
+ *
+ * @alias module:yion
+ */
 const createServer = (app, plugins = []) => {
     const server = http.createServer();
 

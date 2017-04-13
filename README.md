@@ -1,17 +1,11 @@
 # YION
 
-The most yionly node framework.
+The most yionly (lighter, maybe ...) node framework.
 
 ## Installation
 
 ```
 $ npm install --save yion
-```
-
-## Demo
-
-```
-$ npm start
 ```
 
 ## Usage
@@ -55,7 +49,7 @@ app.post('/article', (res, res) => {
     let content = req.body.content || null;
 });
 ```
-Note : The body parser is very simple, it parse only `x-www-form-urlencoded` data. Please see https://www.npmjs.com/package/yion-body-parser for more features
+Note : The body parser is very simple, it parse only `x-www-form-urlencoded` data. Please see [https://www.npmjs.com/package/yion-body-parser](https://www.npmjs.com/package/yion-body-parser) for more features
 
 #### Queries
 
@@ -158,8 +152,8 @@ const myMomentPlugin = {
 
 #### Plugins :
 
-* `yion-body-parser` : Body parser https://www.npmjs.com/package/yion-body-parser
-* `yion-pug` : Pug plugin (add `res.render(filename, data)`) https://www.npmjs.com/package/yion-pug
+* `yion-body-parser` : Body parser [https://www.npmjs.com/package/yion-body-parser](https://www.npmjs.com/package/yion-body-parser)
+* `yion-pug` : Pug plugin (add `res.render(filename, data)`) [https://www.npmjs.com/package/yion-pug](https://www.npmjs.com/package/yion-pug)
 
 ### API Reference
 

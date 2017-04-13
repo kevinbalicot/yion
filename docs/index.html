@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>The most yionly (lighter, maybe ...) node framework.</title>
+        <script src="//cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-okaidia.min.css">
+        <style>
+            h2 {
+                margin-top: 50px;
+            }
+
+            #readme p:nth-child(2) {
+                text-align: center;
+            }
+
+            section > h1:first-child {
+                text-align: center;
+            }
+
+            .anchor {
+                opacity: .5;
+            }
+
+            .anchor:hover {
+                opacity: 1;
+            }
+
+            footer {
+                margin: 50px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Yion</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#readme">Read me</a></li>
+                        <li><a href="#api">API</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="//github.com/kevinbalicot/yion">Github</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <section id="readme" class="container"></section>
+        <hr/>
+        <section id="api" class="container"></section>
+        <hr/>
+
+        <footer class="container">
+            <a class="pull-right" href="#">Back to top</a>
+            <p>
+                © 2017 yion - Made by <a href="//github.com/kevinbalicot">Kevin Balicot</a>. Contact kevinbalicot[at]gmail.com<br/>
+                Fork project on <a href="//github.com/kevinbalicot/yion">Github</a><br/>
+                Code released under the MIT License.
+            </p>
+        </footer>
+
+        <script>
+            var req = new XMLHttpRequest();
+            req.open('GET', '/documentations.md', false);
+            req.send(null);
+
+            if (req.status === 200) {
+                var converter = new showdown.Converter({ tables: true });
+                var html = req.responseText.replace(/⏏/gi, '');
+                document.querySelector('#api').innerHTML = '<h1 id="api">API</h1>' + converter.makeHtml(html);
+
+                var tables = document.querySelectorAll('#api table');
+                for (var i = 0; i < tables.length; i++) {
+                    tables[i].className = 'table table-bordered';
+                }
+
+                var titles = document.querySelectorAll('#api h2, h3');
+                for (var i = 0; i < titles.length; i++) {
+                    titles[i].innerHTML += ' <a class="anchor" href="#' + titles[i].id + '">&#182;</a>'
+                }
+            }
+
+            var req = new XMLHttpRequest();
+            req.open('GET', 'https://raw.githubusercontent.com/kevinbalicot/yion/master/README.md', false);
+            req.send(null);
+
+            if (req.status === 200) {
+                var converter = new showdown.Converter();
+                document.querySelector('#readme').innerHTML = converter.makeHtml(req.responseText);
+
+                var titles = document.querySelectorAll('#readme h2, h3');
+                for (var i = 0; i < titles.length; i++) {
+                    titles[i].innerHTML += ' <a class="anchor" href="#' + titles[i].id + '">&#182;</a>'
+                }
+            }
+        </script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
+    </body>
+</html>

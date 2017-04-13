@@ -1,17 +1,20 @@
 {
   "name": "yion",
   "version": "0.11.0",
-  "description": "The most yionly node framework",
-  "main": "index.js",
+  "description": "The most yionly (lighter, maybe ...) node framework",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/kevinbalicot/yion.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node demo.js"
+    "doc": "node_modules/.bin/jsdoc2md src/*.js > docs/documentations.md"
   },
   "keywords": [],
   "author": "Kevin Balicot <kevinbalicot@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jsdoc-to-markdown": "^3.0.0"
+  }
 }
