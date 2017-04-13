@@ -1,10 +1,6 @@
 # YION
 
-The most yionly (lighter, maybe ...) node framework.
-
-## Documentations and API Reference
-
-[yion website](https://kevinbalicot.github.io/yion/)
+The most yionly (lighter, maybe ...) node framework. Also see [yion website](https://kevinbalicot.github.io/yion/)
 
 ## Installation
 
@@ -161,6 +157,8 @@ const myMomentPlugin = {
 
 ### API Reference
 
+Also see [yion websie](https://kevinbalicot.github.io/yion/#api)
+
 #### Factories
 
 * `createApp()` : create a new application
@@ -177,6 +175,6 @@ const myMomentPlugin = {
  * `res.set(key, value)` : set HTTP header
  * `res.write(message, encoding = 'utf-8')` : add content into HTTP response body
  * `res.send(data = null, encoding = 'utf-8')` : send response
- * `res.json(data)` : send json response
+ * `res.json(data, encoding = 'utf-8')` : send json response
  * `res.redirect(location, code = 301)` : send redirect response
  * `res.sendFile(filepath, filename, mimetype = "text/plain", attachment = true)` : Send file
