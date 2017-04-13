@@ -1,3 +1,22 @@
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/kevinbalicot/yion/compare/v0.11.0...v1.0.0) (2017-04-13)
+
+
+### Bug Fixes
+
+* **doc:** Fix and update doc ([981bda7](https://github.com/kevinbalicot/yion/commit/981bda7))
+* **doc:** Fix url to doc ([12b07f9](https://github.com/kevinbalicot/yion/commit/12b07f9))
+* **doc:** Update doc ([d9b956a](https://github.com/kevinbalicot/yion/commit/d9b956a))
+* **json:** Add UTF8 default encoding for json res ([b6d96eb](https://github.com/kevinbalicot/yion/commit/b6d96eb))
+
+
+### Features
+
+* **doc:** Add changelog and license ([e460ac2](https://github.com/kevinbalicot/yion/commit/e460ac2))
+* **doc:** Add doc ([2aab9de](https://github.com/kevinbalicot/yion/commit/2aab9de))
+
+
+
 <a name="0.11.0"></a>
 # [0.11.0](https://github.com/kevinbalicot/yion/compare/0.10.0...v0.11.0) (2017-03-20)
 

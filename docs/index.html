@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-okaidia.min.css">
         <style>
-            h2 {
+            #readme h2, #api h2 {
                 margin-top: 50px;
             }
 
@@ -43,6 +43,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="#readme">Read me</a></li>
                         <li><a href="#api">API</a></li>
+                        <li><a href="#changelog">Changelog</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="//github.com/kevinbalicot/yion">Github</a></li>
@@ -55,13 +56,15 @@
         <hr/>
         <section id="api" class="container"></section>
         <hr/>
+        <section id="changelog" class="container"></section>
+        <hr/>
 
         <footer class="container">
             <a class="pull-right" href="#">Back to top</a>
             <p>
                 © 2017 yion - Made by <a href="//github.com/kevinbalicot">Kevin Balicot</a>. Contact kevinbalicot[at]gmail.com<br/>
                 Fork project on <a href="//github.com/kevinbalicot/yion">Github</a><br/>
-                Code released under the MIT License.
+                Code released under the <a href="//github.com/kevinbalicot/yion/blob/master/LICENSE.md">MIT</a> License.
             </p>
         </footer>
 
@@ -98,6 +101,15 @@
                 for (var i = 0; i < apiTitles.length; i++) {
                     apiTitles[i].innerHTML += ' <a class="anchor" href="#' + apiTitles[i].id + '">&#182;</a>'
                 }
+            }
+
+            var req = new XMLHttpRequest();
+            req.open('GET', 'https://raw.githubusercontent.com/kevinbalicot/yion/master/CHANGELOG.md', false);
+            req.send(null);
+
+            if (req.status === 200) {
+                var converter = new showdown.Converter();
+                document.querySelector('#changelog').innerHTML = '<h1 id="changelog">Changelog</h1>' + converter.makeHtml(req.responseText);
             }
         </script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
