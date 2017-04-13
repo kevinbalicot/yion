@@ -19,10 +19,22 @@ const defaultPlugin = {
 /**
  * Yion module
  * @module yion
+ * @example
+ * const { createApp, createServer } = require('yion');
+ *
+ * const app = createApp();
+ * const server = createServer(app);
+ *
+ * app.get('/', (req, res) => {
+ *    res.set('Content-Type', 'text/html; charset=utf-8').send('Hello world!');
+ * });
+ *
+ * server.listen(8080);
  */
 
 /**
  * @return {Application}
+ *
  * @alias module:yion
  */
 const createApp = () => new Application();

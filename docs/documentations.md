@@ -175,18 +175,31 @@ compose(req, res, middlewares)();
 ## yion
 Yion module
 
+**Example**  
+```js
+const { createApp, createServer } = require('yion');
+
+const app = createApp();
+const server = createServer(app);
+
+app.get('/', (req, res) => {
+   res.set('Content-Type', 'text/html; charset=utf-8').send('Hello world!');
+});
+
+server.listen(8080);
+```
 
 * [yion](#module_yion)
-    * [createApp()](#exp_module_yion--createApp) ⏏
-    * [createServer(app, [plugins])](#exp_module_yion--createServer) ⏏
+    * [createApp()](#exp_module_yion--createApp) ⇒ <code>Application</code> ⏏
+    * [createServer(app, [plugins])](#exp_module_yion--createServer) ⇒ <code>HttpServer</code> ⏏
 
 <a name="exp_module_yion--createApp"></a>
 
-### createApp() ⏏
+### createApp() ⇒ <code>Application</code> ⏏
 **Kind**: Exported function  
 <a name="exp_module_yion--createServer"></a>
 
-### createServer(app, [plugins]) ⏏
+### createServer(app, [plugins]) ⇒ <code>HttpServer</code> ⏏
 **Kind**: Exported function  
 
 | Param | Type | Default |

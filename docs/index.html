@@ -80,9 +80,9 @@
                     tables[i].className = 'table table-bordered';
                 }
 
-                var titles = document.querySelectorAll('#api h2, h3');
-                for (var i = 0; i < titles.length; i++) {
-                    titles[i].innerHTML += ' <a class="anchor" href="#' + titles[i].id + '">&#182;</a>'
+                var readmeTitles = document.querySelectorAll('#api h2, #api h3');
+                for (var i = 0; i < readmeTitles.length; i++) {
+                    readmeTitles[i].innerHTML += ' <a class="anchor" href="#' + readmeTitles[i].id + '">&#182;</a>'
                 }
             }
 
@@ -94,9 +94,9 @@
                 var converter = new showdown.Converter();
                 document.querySelector('#readme').innerHTML = converter.makeHtml(req.responseText);
 
-                var titles = document.querySelectorAll('#readme h2, h3');
-                for (var i = 0; i < titles.length; i++) {
-                    titles[i].innerHTML += ' <a class="anchor" href="#' + titles[i].id + '">&#182;</a>'
+                var apiTitles = document.querySelectorAll('#readme h2, #readme h3');
+                for (var i = 0; i < apiTitles.length; i++) {
+                    apiTitles[i].innerHTML += ' <a class="anchor" href="#' + apiTitles[i].id + '">&#182;</a>'
                 }
             }
         </script>
