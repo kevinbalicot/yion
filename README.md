@@ -88,12 +88,36 @@ app.get('/', (req, res, next, arg1, arg2) => {
 });
 ```
 
+Every thing is a middleware
+
+```js
+app.get('/', (req, res, next) => {
+    next({ foo: 'bar' });
+});
+
+app.get('/', (req, res, next, foo) => {
+    res.send(foo); // 'bar'
+});
+```
+
 ### Assets
 
 ```javascript
 app.link('/css', __dirname + '/styles');
 app.link('/js', __dirname + '/js');
 app.link('/img', __dirname + '/images');
+```
+
+Now you can type into HTML file
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/main.css">
+        <script type="text/javascript" src="/js/main.js"></script>
+    </head>
+</html>
 ```
 
 ### Plugins
@@ -143,17 +167,29 @@ const moment = require('moment');
 
 const myMomentPlugin = {
     type: 'whatever',
-    handle: (req, res, app) => {
-        req.moment = (date) => moment(date);
+    handle: (req, res, app, next) => {
+        app.moment = (date) => moment(date);
+
+        next(); // use next callback to call next plugin
+
         // don't use app.dispatch(), because other plugins need to be launched
     }
 };
+```
+
+And into your Yion application
+
+```js
+app.get('/what-time-is-it', (req, res, app) => {
+    res.send(app.moment().format());
+});
 ```
 
 #### Plugins :
 
 * `yion-body-parser` : Body parser [https://www.npmjs.com/package/yion-body-parser](https://www.npmjs.com/package/yion-body-parser)
 * `yion-pug` : Pug plugin (add `res.render(filename, data)`) [https://www.npmjs.com/package/yion-pug](https://www.npmjs.com/package/yion-pug)
+* `yion-oauth` : Oauth2 plugin [https://www.npmjs.com/package/yion-oauth](https://www.npmjs.com/package/yion-oauth)
 
 ### Documentations and API Reference
 
