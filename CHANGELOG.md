@@ -1,3 +1,13 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/kevinbalicot/yion/compare/v1.1.0...v1.2.0) (2017-07-06)
+
+
+### Features
+
+* **route:** Add regex parameter pattern ([2bf1fa1](https://github.com/kevinbalicot/yion/commit/2bf1fa1))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/kevinbalicot/yion/compare/v0.11.0...v1.0.0) (2017-04-13)
 

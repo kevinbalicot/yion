@@ -1,6 +1,6 @@
 {
   "name": "yion",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "The most yionly (lighter, maybe ...) node framework",
   "main": "src/index.js",
   "repository": {
