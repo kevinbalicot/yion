@@ -41,6 +41,23 @@ app.get('/article/:id', (res, res) => {
 });
 ```
 
+You can use regexp like this
+
+```javascript
+app.get('/article/:id([0-9]{2})', (res, res) => {
+    let id = req.params.id;
+});
+```
+
+And of course both
+
+```javascript
+app.get('/article/:id([0-9]{2})/:name', (res, res) => {
+    let id = req.params.id;
+    let name = req.params.name;
+});
+```
+
 #### Body
 
 ```javascript

@@ -32,19 +32,25 @@ class Route extends Middleware {
      */
     _validPattern(url, req) {
         const route = `^${this.route}$`;
-        const keys = route.match(/:(\w+)/g) || [];
-        const pattern = route.replace(/:(\w+)/g, '([a-zA-Z0-9ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ_\\-%]+)');
+        const keys = route.match(/:(\w+)\(.+\)|:(\w+)/g) || [];
+
+        let pattern = route.replace(/\//g, '\\/');
+        pattern = pattern.replace(/:\w+(\(.+\))/g, '$1');
+        pattern = pattern.replace(/:(\w+)/g, '((?:(?!\\/)[\\W\\w_])+)');
+
         const regexp = new RegExp(pattern, 'g');
         const values = regexp.exec(url);
 
         let params = [];
         if (!!values) {
             keys.forEach((key, index) => {
-                key = key.replace(':','');
-                req.params[key] = values[index+1] || null;
+                key = key.replace(/:(\w+)\(.+\)|:(\w+)/g, '$1$2').trim();
+                req.params[key] = values[index + 1] || null;
             });
+
             return true;
         }
+
         return false;
     }
 
