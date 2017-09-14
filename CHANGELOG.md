@@ -1,3 +1,13 @@
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/kevinbalicot/yion/compare/v1.2.0...v1.2.1) (2017-09-14)
+
+
+### Bug Fixes
+
+* **link:** Ignore ? character into link ([6204e9f](https://github.com/kevinbalicot/yion/commit/6204e9f))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/kevinbalicot/yion/compare/v1.1.0...v1.2.0) (2017-07-06)
 
