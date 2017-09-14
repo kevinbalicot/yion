@@ -36,8 +36,8 @@ class Link extends Middleware {
      * @alias module:Link
      */
     _validPattern(url) {
-        const pattern = `^${this.pattern}(.*)`;
-        const regexp = new RegExp(pattern, 'g');
+        const pattern = `^${this.pattern}([^\\?]+)`;
+        const regexp = new RegExp(pattern, 'i');
         const result = regexp.exec(url);
 
         if (!!result && fs.existsSync(this.target + result[1])) {
