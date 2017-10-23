@@ -1,3 +1,13 @@
+<a name="1.2.3"></a>
+## [1.2.3](https://github.com/kevinbalicot/yion/compare/v1.2.2...v1.2.3) (2017-10-23)
+
+
+### Bug Fixes
+
+* **link:** Fix Content-Type application/js ([865d3bd](https://github.com/kevinbalicot/yion/commit/865d3bd))
+
+
+
 <a name="1.2.2"></a>
 ## [1.2.2](https://github.com/kevinbalicot/yion/compare/v1.2.1...v1.2.2) (2017-10-23)
 
