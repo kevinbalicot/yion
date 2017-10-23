@@ -70,16 +70,16 @@ const createServer = (app, plugins = []) => {
     const server = http.createServer();
 
     server.on('request', (request, response) => {
-        console.time('request-time');
+        let req = new Request(request);
+        let res = new Response(response);
+
+        console.time(`request-time-${req.ip}-${req.method}-${req.url}`);
         console.log(request.url);
 
         response.on('finish', () => {
             console.log(`${new Date()} - ${req.ip} - ${req.method} ${req.url} => ${res.original.statusCode} : ${res.original.statusMessage}`);
-            console.timeEnd('request-time');
+            console.timeEnd(`request-time-${req.ip}-${req.method}-${req.url}`);
         });
-
-        let req = new Request(request);
-        let res = new Response(response);
 
         try {
             pluginsComposer(plugins, req, res, app)();
