@@ -62,6 +62,7 @@ class Link extends Middleware {
             case 'json': return 'application/json';
             case 'xml': return 'application/xml';
             case 'zip': return 'application/zip';
+            case 'js': return 'application/js';
 
             case 'gif': return 'image/gif';
             case 'jpeg':
