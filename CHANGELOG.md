@@ -1,3 +1,13 @@
+<a name="1.2.2"></a>
+## [1.2.2](https://github.com/kevinbalicot/yion/compare/v1.2.1...v1.2.2) (2017-10-23)
+
+
+### Bug Fixes
+
+* **link:** Fix Content-Type to link process ([5ffba24](https://github.com/kevinbalicot/yion/commit/5ffba24))
+
+
+
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/kevinbalicot/yion/compare/v1.2.0...v1.2.1) (2017-09-14)
 
