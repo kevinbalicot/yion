@@ -22,7 +22,7 @@ class Request {
         this.ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         this.original = req;
         this.params = {};
-        this.body = {};
+        this.body = '';
         this.attributes = {};
         this.query = parse.query;
         this.dispatching = false;
@@ -35,12 +35,20 @@ class Request {
      * @alias module:Request
      */
     parseBody(chunk) {
-        let chunkSplit = chunk.split('&');
+        if (this.headers['content-type'].match(/application\/x-www-form-urlencoded/i)) {
+            if (typeof this.body === 'string') {
+                this.body = {};
+            }
 
-        chunkSplit.forEach(c => {
-            let k = c.split('=');
-            this.body[k[0]] = k[1];
-        });
+            let chunkSplit = chunk.split('&');
+
+            chunkSplit.forEach(c => {
+                let k = c.split('=');
+                this.body[k[0]] = k[1];
+            });
+        } else {
+            this.body += chunk;
+        }
     }
 
     /**

@@ -20,13 +20,6 @@ const pluginsComposer = (plugins, req, res, app) => {
     let next = defaultPlugin.handle.bind(defaultPlugin, req, res, app);
     plugins = plugins.slice();
 
-    for (let i = 0; i < plugins.length; i++) {
-        if (plugins[i].type === 'post') {
-            next = plugins[i].handle.bind(plugins[i], req, res, app);
-            plugins.splice(i, 1);
-        }
-    }
-
     let i = plugins.length;
     while (i--) {
         next = plugins[i].handle.bind(plugins[i], req, res, app, next);
