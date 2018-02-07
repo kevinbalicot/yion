@@ -1,3 +1,8 @@
+<a name="1.2.5"></a>
+## [1.2.5](https://github.com/kevinbalicot/yion/compare/v1.2.4...v1.2.5) (2018-02-07)
+
+
+
 <a name="1.2.3"></a>
 ## [1.2.3](https://github.com/kevinbalicot/yion/compare/v1.2.2...v1.2.3) (2017-10-23)
 
