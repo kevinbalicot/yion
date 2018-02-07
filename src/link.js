@@ -109,7 +109,7 @@ class Link extends Middleware {
             const ext = targetFile.split('.').pop();
             const file = fs.readFileSync(this.target + targetFile);
 
-            //res.set('Content-Length', stats.size);
+            res.set('Content-Length', stats.size);
             res.set('Content-Type', this._getContentType(ext || null));
             res.set('Content-Disposition', 'attachment; filename=' + encodeURIComponent(targetFile.replace('/', '')));
             res.send(file, 'binary');
