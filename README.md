@@ -137,6 +137,16 @@ Now you can type into HTML file
 </html>
 ```
 
+You can add header at response
+
+```javascript
+const cache = { 'Cache-Control': 'public, max-age=600' };
+
+app.link('/css', __dirname + '/styles'); // no cache
+app.link('/js', __dirname + '/js', cache); // add cache control
+app.link('/img', __dirname + '/images', cache); // add cache control
+```
+
 ### Plugins
 
 ```javascript

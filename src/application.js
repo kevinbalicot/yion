@@ -36,13 +36,14 @@ class Application {
      * Add link middleware (usefull for asset, like js and css files)
      * @param {string} pattern - what you use into html file (into link or script tags)
      * @param {string} target - filepath where there are files
+     * @param {Object} [headers={}] - add headers at response
      *
      * @return {Application}
      *
      * @alias module:Application
      */
-    link(pattern, target) {
-        this.middlewares.push(new Link(pattern, target));
+    link(pattern, target, headers = {}) {
+        this.middlewares.push(new Link(pattern, target, headers));
 
         return this;
     }

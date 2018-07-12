@@ -17,14 +17,16 @@ class Link extends Middleware {
      * @extends Middleware
      * @param {string} pattern - what you use into html file (into link or script tags)
      * @param {string} target - filepath where there are files
+     * @param {Object} [headers={}] - add headers at response
      *
      * @alias module:Link
      */
-    constructor(pattern, target) {
+    constructor(pattern, target, headers = {}) {
         super(null);
 
         this.pattern = pattern;
         this.target = target;
+        this.headers = headers;
     }
 
     /**
@@ -112,6 +114,11 @@ class Link extends Middleware {
             res.set('Content-Length', stats.size);
             res.set('Content-Type', this._getContentType(ext || null));
             res.set('Content-Disposition', 'attachment; filename=' + encodeURIComponent(targetFile.replace('/', '')));
+
+            for (let name in this.headers) {
+                res.set(name, this.headers[name]);
+            }
+
             res.send(file, 'binary');
             res.matched = true;
         } else {
