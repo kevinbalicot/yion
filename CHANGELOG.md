@@ -1,3 +1,13 @@
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/kevinbalicot/yion/compare/v1.2.5...v1.3.0) (2018-07-12)
+
+
+### Features
+
+* **link:** Add headers at link middleware ([1123ee4](https://github.com/kevinbalicot/yion/commit/1123ee4))
+
+
+
 <a name="1.2.5"></a>
 ## [1.2.5](https://github.com/kevinbalicot/yion/compare/v1.2.4...v1.2.5) (2018-02-07)
 
