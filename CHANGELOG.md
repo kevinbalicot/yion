@@ -1,3 +1,13 @@
+<a name="1.3.1"></a>
+## [1.3.1](https://github.com/kevinbalicot/yion/compare/v1.3.0...v1.3.1) (2018-12-20)
+
+
+### Bug Fixes
+
+* **app:** Remove useless console.log ([7c13f88](https://github.com/kevinbalicot/yion/commit/7c13f88))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/kevinbalicot/yion/compare/v1.2.5...v1.3.0) (2018-07-12)
 
