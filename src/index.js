@@ -67,7 +67,6 @@ const createServer = (app, plugins = []) => {
         let res = new Response(response);
 
         console.time(`request-time-${req.ip}-${req.method}-${req.url}`);
-        console.log(request.url);
 
         response.on('finish', () => {
             console.log(`${new Date()} - ${req.ip} - ${req.method} ${req.url} => ${res.original.statusCode} : ${res.original.statusMessage}`);
