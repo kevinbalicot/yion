@@ -35,7 +35,7 @@ class Request {
      * @alias module:Request
      */
     parseBody(chunk) {
-        if (this.headers['content-type'].match(/application\/x-www-form-urlencoded/i)) {
+        if (this.headers['content-type'] && this.headers['content-type'].match(/application\/x-www-form-urlencoded/i)) {
             if (typeof this.body === 'string') {
                 this.body = {};
             }
