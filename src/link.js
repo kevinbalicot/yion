@@ -105,7 +105,8 @@ class Link extends Middleware {
      * @alias module:Link
      */
     process(req, res, next, ...args) {
-        let targetFile = this._validPattern(req.url);
+        const url = decodeURI(req.url);
+        let targetFile = this._validPattern(url);
         if (!!targetFile) {
             const stats = fs.statSync(this.target + targetFile);
             const ext = targetFile.split('.').pop();

@@ -31,6 +31,8 @@ class Route extends Middleware {
      * @alias module:Route
      */
     _validPattern(url, req) {
+        url = decodeURI(url);
+
         const route = `^${this.route}$`;
         const keys = route.match(/:(\w+)\(.+\)|:(\w+)/g) || [];
 
