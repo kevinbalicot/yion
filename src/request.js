@@ -35,20 +35,26 @@ class Request {
      * @alias module:Request
      */
     parseBody(chunk) {
-        if (this.headers['content-type'] && this.headers['content-type'].match(/application\/x-www-form-urlencoded/i)) {
-            if (typeof this.body === 'string') {
-                this.body = {};
-            }
+     if (this.headers['content-type'] && this.headers['content-type'].match(/application\/x-www-form-urlencoded/i)) {
+         if (typeof this.body === 'string') {
+             this.body = {};
+         }
 
-            let chunkSplit = chunk.split('&');
+         let chunkSplit = chunk.split('&');
 
-            chunkSplit.forEach(c => {
-                let k = c.split('=');
-                this.body[k[0]] = k[1];
-            });
-        } else {
-            this.body += chunk;
-        }
+         chunkSplit.forEach(c => {
+             let k = c.split('=');
+             this.body[k[0]] = k[1];
+         });
+     } else if (this.headers['content-type'] && this.headers['content-type'].match(/application\/json/i)) {
+         try {
+             this.body = JSON.parse(chunk);
+         } catch (e) {
+             this.body += chunk;
+         }
+     } else {
+         this.body += chunk;
+     }
     }
 
     /**
