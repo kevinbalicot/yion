@@ -1,3 +1,12 @@
+## [1.3.4](https://github.com/kevinbalicot/yion/compare/v1.3.3...v1.3.4) (2021-06-15)
+
+
+### Bug Fixes
+
+* Parse JSON content | :bug: ([696c694](https://github.com/kevinbalicot/yion/commit/696c694851c4ef4ce3083a17fbb17e45ba8563dd))
+
+
+
 <a name="1.3.2"></a>
 ## [1.3.2](https://github.com/kevinbalicot/yion/compare/v1.3.1...v1.3.2) (2019-04-15)
 
