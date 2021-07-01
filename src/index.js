@@ -7,7 +7,7 @@ const Application = require('./application');
 const defaultPlugin = {
     handle: (req, res, app) => {
         const request = req.original;
-        if (request.method === 'POST') {
+        if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
             request.on('data', chunk => req.parseBody(chunk.toString()));
             request.on('end', () => app.dispatch(req, res));
         } else {
