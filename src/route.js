@@ -33,7 +33,7 @@ class Route extends Middleware {
     _validPattern(url, req) {
         url = decodeURI(url);
 
-        const route = `^${this.route}$`;
+        const route = `^${this.route}\/?$`;
         const keys = route.match(/:(\w+)\(.+\)|:(\w+)/g) || [];
 
         let pattern = route.replace(/\//g, '\\/');
