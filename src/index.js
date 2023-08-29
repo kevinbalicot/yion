@@ -1,15 +1,19 @@
 const http = require('http');
+const { Server } = require('http');
 
-const Request = require('./request');
-const Response = require('./response');
+const wrapRequest = require('./request');
+const wrapResponse = require('./response');
 const Application = require('./application');
 
 const defaultPlugin = {
     handle: (req, res, app) => {
-        const request = req.original;
-        if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
-            request.on('data', chunk => req.parseBody(chunk.toString()));
-            request.on('end', () => app.dispatch(req, res));
+        if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
+            let body = '';
+            req.on('data', chunk => body += chunk);
+            req.on('end', () => {
+                req.parseBody(body);
+                app.dispatch(req, res);
+            });
         } else {
             app.dispatch(req, res);
         }
@@ -30,7 +34,7 @@ const pluginsComposer = (plugins, req, res, app) => {
 
 /**
  * Yion module
- * @module yion
+ *
  * @example
  * const { createApp, createServer } = require('yion');
  *
@@ -46,31 +50,26 @@ const pluginsComposer = (plugins, req, res, app) => {
 
 /**
  * @return {Application}
- *
- * @alias module:yion
  */
 const createApp = () => new Application();
 
 /**
  * @param {Application} app
- * @param {Array} [plugins=[]]
+ * @param {array} [plugins=[]]
  *
- * @return {HttpServer}
- *
- * @alias module:yion
+ * @return {Server}
  */
 const createServer = (app, plugins = []) => {
     const server = http.createServer();
 
     server.on('request', (request, response) => {
-        let req = new Request(request);
-        let res = new Response(response);
+        const req = wrapRequest(request);
+        const res = wrapResponse(response);
+        const startTime = performance.now();
 
-        console.time(`request-time-${req.ip}-${req.method}-${req.url}`);
-
-        response.on('finish', () => {
-            console.log(`${new Date()} - ${req.ip} - ${req.method} ${req.url} => ${res.original.statusCode} : ${res.original.statusMessage}`);
-            console.timeEnd(`request-time-${req.ip}-${req.method}-${req.url}`);
+        res.on('finish', () => {
+            const endTime = performance.now();
+            console.log(`${new Date()} - ${req.ip} - ${req.method} ${req.uri} => ${res.statusCode} : ${res.statusMessage} ${(endTime - startTime).toFixed(2)}ms`);
         });
 
         try {

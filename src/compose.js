@@ -1,6 +1,6 @@
 /**
  * Queue handler for middlewares
- * @module Compose
+ *
  * @example
  * const compose = require('./compose');
  *
@@ -12,11 +12,9 @@
  /**
   * @param {Request} req
   * @param {Response} res
-  * @param {Array<Callable>} middlewares
+  * @param {Array<function>} middlewares
   *
-  * @return {Callable} next
-  *
-  * @alias module:Compose
+  * @return {function} next
   */
 module.exports = (req, res, middlewares) => {
     let next = () => res.status(404).send('Not found');

@@ -3,10 +3,11 @@ const compose = require('./compose');
 const Middleware = require('./middleware');
 const Route = require('./route');
 const Link = require('./link');
+const Group = require("./group");
 
 /**
  * Core module of yion
- * @module Application
+ *
  * @example
  * const { createApp } = require('yion');
  *
@@ -20,11 +21,9 @@ class Application {
 
     /**
      * Add middleware
-     * @param {Callable} callback
+     * @param {function} callback
      *
      * @return {Application}
-     *
-     * @alias module:Application
      */
     use(callback) {
         this.middlewares.push(new Middleware(callback));
@@ -33,14 +32,12 @@ class Application {
     }
 
     /**
-     * Add link middleware (usefull for asset, like js and css files)
+     * Add link middleware (useful for asset, like js and css files)
      * @param {string} pattern - what you use into html file (into link or script tags)
      * @param {string} target - filepath where there are files
      * @param {Object} [headers={}] - add headers at response
      *
      * @return {Application}
-     *
-     * @alias module:Application
      */
     link(pattern, target, headers = {}) {
         this.middlewares.push(new Link(pattern, target, headers));
@@ -51,14 +48,13 @@ class Application {
     /**
      * Add GET listener middleware
      * @param {string} pattern - the route pattern
-     * @param {Callback} callback
+     * @param {function} callback
+     * @param {string|null} [name=null]
      *
      * @return {Application}
-     *
-     * @alias module:Application
      */
-    get(pattern, callback) {
-        this.middlewares.push(new Route(callback, pattern, 'GET'));
+    get(pattern, callback, name = null) {
+        this.middlewares.push(new Route(callback, pattern, 'GET', name));
 
         return this;
     }
@@ -66,14 +62,13 @@ class Application {
     /**
      * Add POST listener middleware
      * @param {string} pattern - the route pattern
-     * @param {Callback} callback
+     * @param {function} callback
+     * @param {string|null} [name=null]
      *
      * @return {Application}
-     *
-     * @alias module:Application
      */
-    post(pattern, callback) {
-        this.middlewares.push(new Route(callback, pattern, 'POST'));
+    post(pattern, callback, name = null) {
+        this.middlewares.push(new Route(callback, pattern, 'POST', name));
 
         return this;
     }
@@ -81,28 +76,26 @@ class Application {
     /**
      * Add DELETE listener middleware
      * @param {string} pattern - the route pattern
-     * @param {Callback} callback
+     * @param {function} callback
+     * @param {string|null} [name=null]
      *
      * @return {Application}
-     *
-     * @alias module:Application
      */
-    delete(pattern, callback) {
-        this.middlewares.push(new Route(callback, pattern, 'DELETE'));
+    delete(pattern, callback, name = null) {
+        this.middlewares.push(new Route(callback, pattern, 'DELETE', name));
         return this;
     }
 
     /**
      * Add PUT listener middleware
      * @param {string} pattern - the route pattern
-     * @param {Callback} callback
+     * @param {function} callback
+     * @param {string|null} [name=null]
      *
      * @return {Application}
-     *
-     * @alias module:Application
      */
-    put(pattern, callback) {
-        this.middlewares.push(new Route(callback, pattern, 'PUT'));
+    put(pattern, callback, name = null) {
+        this.middlewares.push(new Route(callback, pattern, 'PUT', name));
 
         return this;
     }
@@ -110,24 +103,45 @@ class Application {
     /**
      * Add PATCH listener middleware
      * @param {string} pattern - the route pattern
-     * @param {Callback} callback
+     * @param {function} callback
+     * @param {string|null} [name=null]
      *
      * @return {Application}
-     *
-     * @alias module:Application
      */
-    patch(pattern, callback) {
-        this.middlewares.push(new Route(callback, pattern, 'PATCH'));
+    patch(pattern, callback, name = null) {
+        this.middlewares.push(new Route(callback, pattern, 'PATCH', name));
 
         return this;
+    }
+
+    /**
+     * Find route by name
+     *
+     * @param name
+     *
+     * @returns {Route|null}
+     */
+    findRoute(name) {
+        return this.middlewares.find(middleware => middleware instanceof Route && middleware.name === name) || null;
+    }
+
+    /**
+     * Add Group listener
+     * @param {string} prefix - the route prefix
+     *
+     * @returns {Group}
+     */
+    group(prefix) {
+        const group = new Group(prefix);
+        this.middlewares.push(group);
+
+        return group;
     }
 
     /**
      * Dispatch a request to middlewares queue
      * @param {Request} req
      * @param {Response} res
-     *
-     * @alias module:Application
      */
     dispatch(req, res) {
         req.dispatching = true;

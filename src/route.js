@@ -1,34 +1,26 @@
 const Middleware = require('./middleware');
 
-/**
- * Route module
- * @module Route
- */
 class Route extends Middleware {
 
     /**
-     * @extends Middleware
-     * @param {Callable} callback
+     * @param {function} callback
      * @param {string} route - the route pattern
      * @param {string} [method='GET']
-     *
-     * @alias module:Route
+     * @param {string|null} [name=null]
      */
-    constructor(callback, route, method = 'GET') {
+    constructor(callback, route, method = 'GET', name = null) {
         super(callback);
 
         this.route = route
         this.method = method;
+        this.name = name;
     }
 
     /**
-     * @protected
      * @param {string} url
      * @param {Request} req
      *
      * @return {boolean}
-     *
-     * @alias module:Route
      */
     _validPattern(url, req) {
         url = decodeURI(url);
@@ -59,13 +51,11 @@ class Route extends Middleware {
     /**
      * @param {Request} req
      * @param {Response} res
-     * @param {Callback} next
-     * @param {Array} [args]
-     *
-     * @alias module:Route
+     * @param {function} next
+     * @param {array} [args]
      */
     process(req, res, next, ...args) {
-        if (req.method == this.method && this._validPattern(req.uri, req)) {
+        if (req.method === this.method && this._validPattern(req.uri, req)) {
             res.routeMatched = this.route;
             this.callback(req, res, next, ...args);
         } else {

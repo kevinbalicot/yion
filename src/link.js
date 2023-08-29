@@ -3,7 +3,7 @@ const Middleware = require('./middleware');
 
 /**
  * Link module
- * @module Link
+ *
  * @example
  * const Link = require('yion/lib/link');
  *
@@ -14,12 +14,9 @@ const Middleware = require('./middleware');
 class Link extends Middleware {
 
     /**
-     * @extends Middleware
      * @param {string} pattern - what you use into html file (into link or script tags)
      * @param {string} target - filepath where there are files
-     * @param {Object} [headers={}] - add headers at response
-     *
-     * @alias module:Link
+     * @param {object} [headers={}] - add headers at response
      */
     constructor(pattern, target, headers = {}) {
         super(null);
@@ -30,12 +27,9 @@ class Link extends Middleware {
     }
 
     /**
-     * @protected
      * @param {string} url
      *
      * @returns {string|null}
-     *
-     * @alias module:Link
      */
     _validPattern(url) {
         const pattern = `^${this.pattern}([^\\?]+)`;
@@ -50,12 +44,9 @@ class Link extends Middleware {
     }
 
     /**
-     * @protected
      * @param {string|null} ext
      *
      * @return {string}
-     *
-     * @alias: module:link
      */
     _getContentType(ext) {
         switch (ext) {
@@ -99,10 +90,8 @@ class Link extends Middleware {
     /**
      * @param {Request} req
      * @param {Response} res
-     * @param {Callback} next
-     * @param {Array} [args]
-     *
-     * @alias module:Link
+     * @param {function} next
+     * @param {array} [args]
      */
     process(req, res, next, ...args) {
         const url = decodeURI(req.url);

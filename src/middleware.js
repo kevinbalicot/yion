@@ -1,13 +1,7 @@
-/**
- * Middleware module
- * @module Middleware
- */
 class Middleware {
 
     /**
-     * @param {Callback} callback
-     *
-     * @alias module:Middleware
+     * @param {function} callback
      */
     constructor(callback) {
         this.callback = callback;
@@ -16,10 +10,8 @@ class Middleware {
     /**
      * @param {Request} req
      * @param {Response} res
-     * @param {Callback} next
-     * @param {Array} [args]
-     *
-     * @alias module:Middleware
+     * @param {function} next
+     * @param {array} [args]
      */
     process(req, res, next, ...args) {
         this.callback.call(this, req, res, next, ...args);
