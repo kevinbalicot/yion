@@ -48,6 +48,28 @@ class Route extends Middleware {
         return false;
     }
 
+    generatePath(params = {}, query = {}, absolute = false) {
+        let path = this.route;
+
+        Object.keys(params).forEach(key => {
+            path = path.replace(`:${key}`, params[key]);
+        });
+
+        if (Object.keys(query).length > 0) {
+            path += '?';
+            Object.keys(query).forEach(key => {
+                path += `${key}=${query[key]}&`;
+            });
+            path = path.substring(0, path.length - 1);
+        }
+
+        if (absolute) {
+            path = `${this.req.protocol}://${this.req.headers.host}${path}`;
+        }
+
+        return path;
+    }
+
     /**
      * @param {Request} req
      * @param {Response} res
@@ -56,7 +78,7 @@ class Route extends Middleware {
      */
     process(req, res, next, ...args) {
         if (req.method === this.method && this._validPattern(req.uri, req)) {
-            res.routeMatched = this.route;
+            res.routeMatched = this;
             this.callback(req, res, next, ...args);
         } else {
             next(...args);
