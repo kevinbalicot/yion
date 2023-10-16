@@ -29,7 +29,8 @@ module.exports = function (request) {
         },
 
         query: {
-            value: query
+            value: query,
+            writable: true,
         },
 
         uri: {
