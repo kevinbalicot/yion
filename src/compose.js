@@ -2,27 +2,33 @@
  * Queue handler for middlewares
  *
  * @example
- * const compose = require('./compose');
+ * const compose = require('./compose')
  *
- * const middlewares = [() => {}, ...];
+ * const middlewares = [() => {}, ...]
  *
- * compose(req, res, middlewares)();
+ * compose(req, res, middlewares)()
  */
 
  /**
-  * @param {Request} req
-  * @param {Response} res
-  * @param {Array<function>} middlewares
+  * @param {Array<Middleware>} middlewares
+  * @param {Object} context
+  * @param {Function|null} [next=null]
   *
   * @return {function} next
   */
-module.exports = (req, res, middlewares) => {
-    let next = () => res.status(404).send('Not found');
-    let i = middlewares.length;
+module.exports = (middlewares, context, next = null) => {
+    const {res} = context
+
+    next = next ? next : () => {
+        res.statusCode = 404
+        res.statusMessage = 'Not Found'
+        res.end('Not Found')
+    }
+    let i = middlewares.length
 
     while (i--) {
-        next = middlewares[i].process.bind(middlewares[i], req, res, next);
+        next = middlewares[i].process.bind(middlewares[i], context, next)
     }
 
-    return next;
-};
+    return next
+}

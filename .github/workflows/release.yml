@@ -1,0 +1,35 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Release
+
+on:
+    push:
+        branches: [ "master" ]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v3
+            -   uses: actions/setup-node@v3
+                with:
+                    node-version: 16
+            -   run: npm install
+            -   run: npm test
+
+    release:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout project
+                uses: actions/checkout@v3
+            -   name: Install and release project
+                uses: actions/setup-node@v3
+                with:
+                    node-version: 16
+            -   run: npm install
+            -   run: npm install -g semantic-release @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/exec @semantic-release/git @semantic-release/npm @semantic-release/release-notes-generator
+            -   run: semantic-release --ci
+                env:
+                    NPM_TOKEN: ${{secrets.NPM_TOKEN}}

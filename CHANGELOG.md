@@ -1,3 +1,19 @@
+## [2.1.1](https://github.com/kevinbalicot/yion/compare/v1.3.5...v2.1.1) (2024-02-23)
+
+
+### Bug Fixes
+
+* Route ended with slash ([15181d8](https://github.com/kevinbalicot/yion/commit/15181d8dfda575ef1dab77c8acc5dc410deee28a))
+* Writtable request query ([65389cd](https://github.com/kevinbalicot/yion/commit/65389cd64ae7a7d5bef30e611c043b5830a4471e))
+
+
+### Features
+
+* Add generatPath from Route ([8cbe2b8](https://github.com/kevinbalicot/yion/commit/8cbe2b88621f2fcc929e78237cb07261e0906304))
+* Release 2.0.0 ([b53b9ab](https://github.com/kevinbalicot/yion/commit/b53b9aba0de6ac35b6d0a49f82a66e92da3cf564))
+
+
+
 ## [1.3.4](https://github.com/kevinbalicot/yion/compare/v1.3.3...v1.3.4) (2021-06-15)
 
 

@@ -10,19 +10,21 @@ $ npm install --save yion
 
 ## Usage
 
-Bootstrap
+Get started with Yion
 
 ```javascript
-const { createApp, createServer } = require('yion');
+const { createApp, createServer } = require('yion')
 
-const app = createApp();
-const server = createServer(app);
+const app = createApp()
+const server = createServer(app)
 
-app.get('/', (req, res) => {
-    res.set('Content-Type', 'text/html; charset=utf-8').send('Hello world!');
+app.get('/', ({req, res}) => {
+  res.set('Content-Type', 'text/html; charset=utf-8').send('Hello world!');
 });
 
-server.listen(8080);
+server.listen(8080).on('listening', () => {
+  console.log('Server is running on port 8080')
+})
 ```
 
 ### Router
@@ -36,93 +38,111 @@ server.listen(8080);
 #### Parameters
 
 ```javascript
-app.get('/article/:id', (res, res) => {
-    let id = req.params.id;
-});
+app.get('/article/:id', ({res, res}) => {
+  let id = req.params.id
+})
 ```
 
 You can use regexp like this
 
 ```javascript
-app.get('/article/:id([0-9]{2})', (res, res) => {
-    let id = req.params.id;
-});
+app.get('/article/:id([0-9]{2})', ({res, res}) => {
+  let id = req.params.id
+})
 ```
 
 And of course both
 
 ```javascript
-app.get('/article/:id([0-9]{2})/:name', (res, res) => {
-    let id = req.params.id;
-    let name = req.params.name;
-});
+app.get('/article/:id([0-9]{2})/:name', ({res, res}) => {
+  let id = req.params.id
+  let name = req.params.name
+})
 ```
 
 #### Body
 
 ```javascript
-app.post('/article', (res, res) => {
-    let title = req.body.title || null;
-    let content = req.body.content || null;
-});
+const parseBody = require('yion/middlewares/parse-body')
+
+app.post('/article', parseBody, ({res, res}) => {
+  let title = req.body.title || null
+  let content = req.body.content || null
+})
 ```
-Note : The body parser is very simple, it parse only `x-www-form-urlencoded` data. Please see [https://www.npmjs.com/package/yion-body-parser](https://www.npmjs.com/package/yion-body-parser) for more features
+Note : The body parser is very simple, it parse only `x-www-form-urlencoded` and JSON data. Please see `bodyParser` plugin for more features
 
 #### Queries
 
 ```javascript
 // GET /articles?order=title&direction=asc
 
-app.get('/article', (res, res) => {
-    let order = req.query.order || 'created_at';
-    let direction = req.query.direction || 'desc';
-});
+app.get('/article', ({res, res}) => {
+  let order = req.query.order || 'created_at'
+  let direction = req.query.direction || 'desc'
+})
 ```
 
 ### Middlewares
 
 ```javascript
-app.use((req, res, next) => {
-    // do stuff
+app.use(({req, res}, next) => {
+  // do stuff
 
-    next();
-});
+  next()
+})
 ```
 You can pass arguments to next middleware.
 
 ```javascript
 app.use((req, res, next) => {
-    // do stuff
+  // do stuff
+    
+  next('foo', { foo: 'bar' })
+})
 
-    next('foo', { foo: 'bar' });
-});
+app.get('/', ({req, res}, next, arg1, arg2) => {
+  console.log(arg1) // 'foo'
+  console.log(arg2) // { foo: 'bar' }
 
-app.get('/', (req, res, next, arg1, arg2) => {
-    console.log(arg1); // 'foo'
-    console.log(arg2); // { foo: 'bar' }
-
-    // do stuff
-});
+  // do stuff
+})
 ```
 
 Every thing is a middleware
 
 ```js
-app.get('/', (req, res, next) => {
-    next({ foo: 'bar' });
-});
+app.get('/', ({req, res}, next) => {
+  next({ foo: 'bar' })
+})
 
-app.get('/', (req, res, next, foo) => {
-    res.send(foo); // 'bar'
-});
+app.get('/', ({req, res}, next, foo) => {
+  res.send(foo) // 'bar'
+})
+```
+
+And you can compose middlewares into middleware
+
+```javascript
+app.get(
+  '/admin',
+  ({req, res}, next) => {
+    const session = getSession(req)
+
+    next(session)
+  },
+  ({req, res}, next, session) => {
+    res.send(`Hello ${session.username}!`)
+  }
+)
 ```
 
 ### Assets
 
 ```javascript
-app.link('/css', __dirname + '/styles');
-app.link('/js', __dirname + '/js');
-app.link('/img', __dirname + '/images');
+app.link('/css', __dirname + '/styles')
+app.link('/js', __dirname + '/js')
+app.link('/img', __dirname + '/images')
 ```
 
 Now you can type into HTML file
@@ -140,104 +160,78 @@ Now you can type into HTML file
 You can add header at response
 
 ```javascript
-const cache = { 'Cache-Control': 'public, max-age=600' };
+const cache = { 'Cache-Control': 'public, max-age=600' }
 
-app.link('/css', __dirname + '/styles'); // no cache
-app.link('/js', __dirname + '/js', cache); // add cache control
-app.link('/img', __dirname + '/images', cache); // add cache control
+app.link('/css', __dirname + '/styles') // no cache
+app.link('/js', __dirname + '/js', cache) // add cache control
+app.link('/img', __dirname + '/images', cache) // add cache control
 ```
 
 ### Plugins
 
 ```javascript
-const { createApp, createServer } = require('yion');
-const bodyparserPlugin = require('yion-body-parser');
+const { createApp, createServer } = require('yion')
+const bodyParser = require('yion/plugins/body-parser')
 
-const app = createApp();
-const server = createServer(app, [bodyparserPlugin]);
+const app = createApp()
+const server = createServer(app)
+
+use(bodyParser())
 
 app.post('/file', (req, res) => {
-    if (!req.body.file) {
-        return res.status(500).send();
-    }
+  if (!req.body.file) {
+    return res.status(500).send()
+  }
 
-    const file = req.body.file;
-    res.sendFile(file.filepath, file.filename, file.mimetype);
-});
+  const file = req.body.file
+  res.sendFile(file.filepath, file.filename, file.mimetype)
+})
 
-server.listen(8080);
+server.listen(8080)
 ```
 
-If you want to create a plugin, make a simple object with a `handle` function.
+If you want to create a plugin, make a function to return a function.
 
-There are 2 types of plugin :
+```javascript
+const myPostPlugin = () => (context, next) => {
+  const {req, res, app} = context
 
-Plugin handles POST/GET request, example (⚠️  type has to be `post`):
-```js
-const myPostPlugin = {
-    type: 'post',
-    handle: (req, res, app) => {
-        const request = req.original; // get Node Request
-        if (request.method === 'POST') {
-            // make stuff
-        }
+  // make stuff
 
-        app.dispatch(req, res); // dispatch request, plugins loop stop
-    }
-};
+  next()
+}
 ```
 
 And plugin add features into application, example :
 
-```js
-const moment = require('moment');
+```javascript
+const moment = require('moment')
 
-const myMomentPlugin = {
-    type: 'whatever',
-    handle: (req, res, app, next) => {
-        app.moment = (date) => moment(date);
+const myMomentPlugin = (momentFormat) => (context, next) => {
+  context.moment = (date) => moment(date, momentFormat)
 
-        next(); // use next callback to call next plugin
-
-        // don't use app.dispatch(), because other plugins need to be launched
-    }
-};
+  next(); // use next callback to call next plugin
+}
 ```
 
 And into your Yion application
 
-```js
-app.get('/what-time-is-it', (req, res, app) => {
-    res.send(app.moment().format());
-});
+```javascript
+app.use(myMomentPlugin('YYYY-MM-DD'))
+
+app.get('/what-time-is-it', ({moment}) => {
+  res.send(moment().format())
+})
 ```
 
 #### Plugins :
 
-* `yion-body-parser` : Body parser [https://www.npmjs.com/package/yion-body-parser](https://www.npmjs.com/package/yion-body-parser)
-* `yion-pug` : Pug plugin (add `res.render(filename, data)`) [https://www.npmjs.com/package/yion-pug](https://www.npmjs.com/package/yion-pug)
-* `yion-oauth` : Oauth2 plugin [https://www.npmjs.com/package/yion-oauth](https://www.npmjs.com/package/yion-oauth)
+* `body parser` : Body parser `yion/plugins/body-parser`
+* `logger` : Logger `yion/plugins/logger`
+* `encoding` : Encoding with zlib `yion/plugins/encoding`
+* `session` : Session `yion/plugins/session`
+* `open api doc` : Open API Doc `yion/plugins/open-api-doc`
 
 ### Documentations and API Reference
 
 You can see documentations [here](https://github.com/kevinbalicot/yion/blob/master/docs/documentations.md). Full API reference [here](https://kevinbalicot.github.io/yion/#api). Also see [yion websie](https://kevinbalicot.github.io/yion/)
-
-#### Factories
-
-* `createApp()` : create a new application
-* `createServer(app, [])` : create a new server with an application and an array of plugins (optional)
-
-#### Request
-
- * `req.has(key)` : check if there are parameter or attribute with `key`
- * `req.get(key)` : get value of parameter or attribute with `key`
-
-#### Response
-
- * `res.status(code, message = null)` : change HTTP status
- * `res.set(key, value)` : set HTTP header
- * `res.write(message, encoding = 'utf-8')` : add content into HTTP response body
- * `res.send(data = null, encoding = 'utf-8')` : send response
- * `res.json(data, encoding = 'utf-8')` : send json response
- * `res.redirect(location, code = 301)` : send redirect response
- * `res.sendFile(filepath, filename, mimetype = "text/plain", attachment = true)` : Send file

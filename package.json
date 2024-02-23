@@ -1,6 +1,6 @@
 {
   "name": "yion",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "The most yionly (lighter, maybe ...) node framework",
   "main": "src/index.js",
   "repository": {
@@ -8,7 +8,9 @@
     "url": "https://github.com/kevinbalicot/yion.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run cs",
+    "fix-cs": "eslint --fix *.js",
+    "cs": "eslint *.js",
     "doc": "node_modules/.bin/jsdoc2md src/*.js > docs/documentations.md",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
@@ -16,7 +18,12 @@
   "author": "Kevin Balicot <kevinbalicot@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "busboy": "^1.6.0",
     "conventional-changelog-cli": "^2.1.1",
-    "jsdoc-to-markdown": "^7.0.1"
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "jsdoc-to-markdown": "^7.0.1",
+    "swagger-ui-dist": "^5.11.8"
   }
 }

@@ -1,216 +1,206 @@
-## Modules
+## Classes
 
 <dl>
-<dt><a href="#module_Application">Application</a></dt>
+<dt><a href="#Application">Application</a></dt>
 <dd><p>Core module of yion</p>
 </dd>
-<dt><a href="#module_Compose">Compose</a></dt>
-<dd><p>Queue handler for middlewares</p>
-</dd>
-<dt><a href="#module_yion">yion</a></dt>
-<dd><p>Yion module</p>
-</dd>
-<dt><a href="#module_Link">Link</a></dt>
+<dt><a href="#Link">Link</a></dt>
 <dd><p>Link module</p>
 </dd>
-<dt><a href="#module_Middleware">Middleware</a></dt>
-<dd><p>Middleware module</p>
+<dt><a href="#Middleware">Middleware</a></dt>
+<dd></dd>
+<dt><a href="#Route">Route</a></dt>
+<dd></dd>
+</dl>
+
+## Members
+
+<dl>
+<dt><a href="#parseBody">parseBody</a></dt>
+<dd><p>Light body parser</p>
 </dd>
-<dt><a href="#module_Request">Request</a></dt>
-<dd><p>Request module</p>
+<dt><a href="#has">has</a> ⇒ <code>boolean</code></dt>
+<dd><p>Check if request has parameter or attribute</p>
 </dd>
-<dt><a href="#module_Response">Response</a></dt>
-<dd><p>Response module</p>
+<dt><a href="#get">get</a> ⇒ <code>*</code></dt>
+<dd><p>Get parameter or attribute if exists</p>
 </dd>
-<dt><a href="#module_Route">Route</a></dt>
-<dd><p>Route module</p>
+<dt><a href="#status">status</a> ⇒ <code>Response</code></dt>
+<dd><p>Set response status code</p>
+</dd>
+<dt><a href="#set">set</a> ⇒ <code>Response</code></dt>
+<dd><p>Set response header</p>
+</dd>
+<dt><a href="#send">send</a></dt>
+<dd><p>Set response body and lock it</p>
+</dd>
+<dt><a href="#sendFile">sendFile</a></dt>
+<dd><p>Attach file at response</p>
+</dd>
+<dt><a href="#json">json</a></dt>
+<dd><p>Add json into response body</p>
+</dd>
+<dt><a href="#redirect">redirect</a></dt>
+<dd><p>Make response a redirection</p>
 </dd>
 </dl>
 
-<a name="module_Application"></a>
+## Functions
+
+<dl>
+<dt><a href="#createApp">createApp()</a></dt>
+<dd><p>Yion module</p>
+</dd>
+<dt><a href="#createServer">createServer(...apps)</a> ⇒ <code>Server</code></dt>
+<dd></dd>
+</dl>
+
+<a name="Application"></a>
 
 ## Application
 Core module of yion
 
-**Example**  
-```js
-const { createApp } = require('yion');
+**Kind**: global class  
 
-const app = createApp();
-app.get('/home', (req, res) => res.send('hello world'));
-```
+* [Application](#Application)
+    * [.use(callback)](#Application+use) ⇒ [<code>Application</code>](#Application)
+    * [.link(pattern, target, [headers])](#Application+link) ⇒ [<code>Application</code>](#Application)
+    * [.get(pattern, ...callbacks)](#Application+get) ⇒ [<code>Application</code>](#Application)
+    * [.post(pattern, ...callbacks)](#Application+post) ⇒ [<code>Application</code>](#Application)
+    * [.delete(pattern, ...callbacks)](#Application+delete) ⇒ [<code>Application</code>](#Application)
+    * [.put(pattern, ...callbacks)](#Application+put) ⇒ [<code>Application</code>](#Application)
+    * [.patch(pattern, ...callbacks)](#Application+patch) ⇒ [<code>Application</code>](#Application)
+    * [.group(prefix)](#Application+group) ⇒ <code>Group</code>
+    * [.process(context, next, [...args])](#Application+process)
 
-* [Application](#module_Application)
-    * [Application#use(callback)](#exp_module_Application--Application+use) ⇒ <code>Application</code> ⏏
-    * [Application#link(pattern, target)](#exp_module_Application--Application+link) ⇒ <code>Application</code> ⏏
-    * [Application#get(pattern, callback)](#exp_module_Application--Application+get) ⇒ <code>Application</code> ⏏
-    * [Application#post(pattern, callback)](#exp_module_Application--Application+post) ⇒ <code>Application</code> ⏏
-    * [Application#delete(pattern, callback)](#exp_module_Application--Application+delete) ⇒ <code>Application</code> ⏏
-    * [Application#put(pattern, callback)](#exp_module_Application--Application+put) ⇒ <code>Application</code> ⏏
-    * [Application#patch(pattern, callback)](#exp_module_Application--Application+patch) ⇒ <code>Application</code> ⏏
-    * [Application#dispatch(req, res)](#exp_module_Application--Application+dispatch) ⏏
+<a name="Application+use"></a>
 
-<a name="exp_module_Application--Application+use"></a>
-
-### Application#use(callback) ⇒ <code>Application</code> ⏏
+### application.use(callback) ⇒ [<code>Application</code>](#Application)
 Add middleware
 
-**Kind**: Exported function  
+**Kind**: instance method of [<code>Application</code>](#Application)  
 
 | Param | Type |
 | --- | --- |
-| callback | <code>Callable</code> | 
+| callback | <code>function</code> | 
 
-<a name="exp_module_Application--Application+link"></a>
+<a name="Application+link"></a>
 
-### Application#link(pattern, target) ⇒ <code>Application</code> ⏏
-Add link middleware (usefull for asset, like js and css files)
+### application.link(pattern, target, [headers]) ⇒ [<code>Application</code>](#Application)
+Add link middleware (useful for asset, like js and css files)
 
-**Kind**: Exported function  
+**Kind**: instance method of [<code>Application</code>](#Application)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| pattern | <code>string</code> | what you use into html file (into link or script tags) |
-| target | <code>string</code> | filepath where there are files |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| pattern | <code>string</code> |  | what you use into html file (into link or script tags) |
+| target | <code>string</code> |  | filepath where there are files |
+| [headers] | <code>Object</code> | <code>{}</code> | add headers at response |
 
-<a name="exp_module_Application--Application+get"></a>
+<a name="Application+get"></a>
 
-### Application#get(pattern, callback) ⇒ <code>Application</code> ⏏
+### application.get(pattern, ...callbacks) ⇒ [<code>Application</code>](#Application)
 Add GET listener middleware
 
-**Kind**: Exported function  
+**Kind**: instance method of [<code>Application</code>](#Application)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | pattern | <code>string</code> | the route pattern |
-| callback | <code>Callback</code> |  |
+| ...callbacks | <code>Array.&lt;function()&gt;</code> |  |
 
-<a name="exp_module_Application--Application+post"></a>
+<a name="Application+post"></a>
 
-### Application#post(pattern, callback) ⇒ <code>Application</code> ⏏
+### application.post(pattern, ...callbacks) ⇒ [<code>Application</code>](#Application)
 Add POST listener middleware
 
-**Kind**: Exported function  
+**Kind**: instance method of [<code>Application</code>](#Application)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | pattern | <code>string</code> | the route pattern |
-| callback | <code>Callback</code> |  |
+| ...callbacks | <code>Array.&lt;function()&gt;</code> |  |
 
-<a name="exp_module_Application--Application+delete"></a>
+<a name="Application+delete"></a>
 
-### Application#delete(pattern, callback) ⇒ <code>Application</code> ⏏
+### application.delete(pattern, ...callbacks) ⇒ [<code>Application</code>](#Application)
 Add DELETE listener middleware
 
-**Kind**: Exported function  
+**Kind**: instance method of [<code>Application</code>](#Application)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | pattern | <code>string</code> | the route pattern |
-| callback | <code>Callback</code> |  |
+| ...callbacks | <code>Array.&lt;function()&gt;</code> |  |
 
-<a name="exp_module_Application--Application+put"></a>
+<a name="Application+put"></a>
 
-### Application#put(pattern, callback) ⇒ <code>Application</code> ⏏
+### application.put(pattern, ...callbacks) ⇒ [<code>Application</code>](#Application)
 Add PUT listener middleware
 
-**Kind**: Exported function  
+**Kind**: instance method of [<code>Application</code>](#Application)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | pattern | <code>string</code> | the route pattern |
-| callback | <code>Callback</code> |  |
+| ...callbacks | <code>Array.&lt;function()&gt;</code> |  |
 
-<a name="exp_module_Application--Application+patch"></a>
+<a name="Application+patch"></a>
 
-### Application#patch(pattern, callback) ⇒ <code>Application</code> ⏏
+### application.patch(pattern, ...callbacks) ⇒ [<code>Application</code>](#Application)
 Add PATCH listener middleware
 
-**Kind**: Exported function  
+**Kind**: instance method of [<code>Application</code>](#Application)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | pattern | <code>string</code> | the route pattern |
-| callback | <code>Callback</code> |  |
+| ...callbacks | <code>Array.&lt;function()&gt;</code> |  |
 
-<a name="exp_module_Application--Application+dispatch"></a>
+<a name="Application+group"></a>
 
-### Application#dispatch(req, res) ⏏
-Dispatch a request to middlewares queue
+### application.group(prefix) ⇒ <code>Group</code>
+Add Group listener
 
-**Kind**: Exported function  
+**Kind**: instance method of [<code>Application</code>](#Application)  
 
-| Param | Type |
-| --- | --- |
-| req | <code>Request</code> | 
-| res | <code>Response</code> | 
-
-<a name="module_Compose"></a>
-
-## Compose
-Queue handler for middlewares
-
-**Example**  
-```js
-const compose = require('./compose');
-
-const middlewares = [() => {}, ...];
-
-compose(req, res, middlewares)();
-```
-<a name="exp_module_Compose--module.exports"></a>
-
-### module.exports(req, res, middlewares) ⇒ <code>Callable</code> ⏏
-**Kind**: Exported function  
-**Returns**: <code>Callable</code> - next  
-
-| Param | Type |
-| --- | --- |
-| req | <code>Request</code> | 
-| res | <code>Response</code> | 
-| middlewares | <code>Array.&lt;Callable&gt;</code> | 
-
-<a name="module_yion"></a>
-
-## yion
-Yion module
-
-**Example**  
-```js
-const { createApp, createServer } = require('yion');
-
-const app = createApp();
-const server = createServer(app);
-
-app.get('/', (req, res) => {
-   res.set('Content-Type', 'text/html; charset=utf-8').send('Hello world!');
-});
-
-server.listen(8080);
-```
-
-* [yion](#module_yion)
-    * [createApp()](#exp_module_yion--createApp) ⇒ <code>Application</code> ⏏
-    * [createServer(app, [plugins])](#exp_module_yion--createServer) ⇒ <code>HttpServer</code> ⏏
-
-<a name="exp_module_yion--createApp"></a>
-
-### createApp() ⇒ <code>Application</code> ⏏
-**Kind**: Exported function  
-<a name="exp_module_yion--createServer"></a>
-
-### createServer(app, [plugins]) ⇒ <code>HttpServer</code> ⏏
-**Kind**: Exported function  
-
-| Param | Type | Default |
+| Param | Type | Description |
 | --- | --- | --- |
-| app | <code>Application</code> |  | 
-| [plugins] | <code>Array</code> | <code>[]</code> | 
+| prefix | <code>string</code> | the route prefix |
 
-<a name="module_Link"></a>
+<a name="Application+process"></a>
+
+### application.process(context, next, [...args])
+**Kind**: instance method of [<code>Application</code>](#Application)  
+
+| Param | Type |
+| --- | --- |
+| context | <code>Object</code> | 
+| next | <code>function</code> | 
+| [...args] | <code>Array</code> | 
+
+<a name="Link"></a>
 
 ## Link
 Link module
+
+**Kind**: global class  
+
+* [Link](#Link)
+    * [new Link(pattern, target, [headers])](#new_Link_new)
+    * [._validPattern(url)](#Link+_validPattern) ⇒ <code>string</code> \| <code>null</code>
+    * [._getContentType(ext)](#Link+_getContentType) ⇒ <code>string</code>
+    * [.process(context, next, [...args])](#Link+process)
+
+<a name="new_Link_new"></a>
+
+### new Link(pattern, target, [headers])
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| pattern | <code>string</code> |  | what you use into html file (into link or script tags) |
+| target | <code>string</code> |  | filepath where there are files |
+| [headers] | <code>Object</code> | <code>{}</code> | add headers at response |
 
 **Example**  
 ```js
@@ -220,188 +210,180 @@ const link = new Link('/js', __dirname + '/public/js');
 [ ... ]
 link.process(req, res);
 ```
+<a name="Link+_validPattern"></a>
 
-* [Link](#module_Link)
-    * [Link](#exp_module_Link--Link) ⇐ <code>Middleware</code> ⏏
-    * [Link#_validPattern(url)](#exp_module_Link--Link+_validPattern) ⇒ <code>string</code> \| <code>null</code> ⏏
-    * [Link#process(req, res, next, [...args])](#exp_module_Link--Link+process) ⏏
-
-<a name="exp_module_Link--Link"></a>
-
-### Link ⇐ <code>Middleware</code> ⏏
-**Kind**: Exported class  
-**Extends**: <code>Middleware</code>  
-<a name="exp_module_Link--Link+_validPattern"></a>
-
-### Link#_validPattern(url) ⇒ <code>string</code> \| <code>null</code> ⏏
-**Kind**: Exported function  
-**Access**: protected  
+### link.\_validPattern(url) ⇒ <code>string</code> \| <code>null</code>
+**Kind**: instance method of [<code>Link</code>](#Link)  
 
 | Param | Type |
 | --- | --- |
 | url | <code>string</code> | 
 
-<a name="exp_module_Link--Link+process"></a>
+<a name="Link+_getContentType"></a>
 
-### Link#process(req, res, next, [...args]) ⏏
-**Kind**: Exported function  
+### link.\_getContentType(ext) ⇒ <code>string</code>
+**Kind**: instance method of [<code>Link</code>](#Link)  
 
 | Param | Type |
 | --- | --- |
-| req | <code>Request</code> | 
-| res | <code>Response</code> | 
-| next | <code>Callback</code> | 
-| [...args] | <code>Array</code> | 
+| ext | <code>string</code> \| <code>null</code> | 
 
-<a name="module_Middleware"></a>
+<a name="Link+process"></a>
+
+### link.process(context, next, [...args])
+**Kind**: instance method of [<code>Link</code>](#Link)  
+
+| Param | Type |
+| --- | --- |
+| context | <code>Object</code> | 
+| next | <code>function</code> | 
+| [...args] | <code>array</code> | 
+
+<a name="Middleware"></a>
 
 ## Middleware
-Middleware module
+**Kind**: global class  
 
+* [Middleware](#Middleware)
+    * [new Middleware(callback)](#new_Middleware_new)
+    * [.process(context, next, [...args])](#Middleware+process)
 
-* [Middleware](#module_Middleware)
-    * [Middleware](#exp_module_Middleware--Middleware) ⏏
-    * [Middleware#process(req, res, next, [...args])](#exp_module_Middleware--Middleware+process) ⏏
+<a name="new_Middleware_new"></a>
 
-<a name="exp_module_Middleware--Middleware"></a>
-
-### Middleware ⏏
-**Kind**: Exported class  
-<a name="exp_module_Middleware--Middleware+process"></a>
-
-### Middleware#process(req, res, next, [...args]) ⏏
-**Kind**: Exported function  
+### new Middleware(callback)
 
 | Param | Type |
 | --- | --- |
-| req | <code>Request</code> | 
-| res | <code>Response</code> | 
-| next | <code>Callback</code> | 
+| callback | <code>function</code> | 
+
+<a name="Middleware+process"></a>
+
+### middleware.process(context, next, [...args])
+**Kind**: instance method of [<code>Middleware</code>](#Middleware)  
+
+| Param | Type |
+| --- | --- |
+| context | <code>Object</code> | 
+| next | <code>function</code> | 
 | [...args] | <code>Array</code> | 
 
-<a name="module_Request"></a>
+<a name="Route"></a>
 
-## Request
-Request module
+## Route
+**Kind**: global class  
 
+* [Route](#Route)
+    * [new Route(method, pattern, callbacks)](#new_Route_new)
+    * [._validPattern(url, req)](#Route+_validPattern) ⇒ <code>boolean</code>
+    * [.process(context, next, [...args])](#Route+process)
 
-* [Request](#module_Request)
-    * [Request](#exp_module_Request--Request) ⏏
-    * [Request#parseBody(chunk)](#exp_module_Request--Request+parseBody) ⏏
-    * [Request#has(key)](#exp_module_Request--Request+has) ⇒ <code>boolean</code> ⏏
-    * [Request#get(key)](#exp_module_Request--Request+get) ⇒ <code>\*</code> ⏏
+<a name="new_Route_new"></a>
 
-<a name="exp_module_Request--Request"></a>
+### new Route(method, pattern, callbacks)
 
-### Request ⏏
-**Kind**: Exported class  
-<a name="exp_module_Request--Request+parseBody"></a>
+| Param | Type | Description |
+| --- | --- | --- |
+| method | <code>string</code> | the request method |
+| pattern | <code>string</code> | the route pattern |
+| callbacks | [<code>Array.&lt;Middleware&gt;</code>](#Middleware) |  |
 
-### Request#parseBody(chunk) ⏏
+<a name="Route+_validPattern"></a>
+
+### route.\_validPattern(url, req) ⇒ <code>boolean</code>
+**Kind**: instance method of [<code>Route</code>](#Route)  
+
+| Param | Type |
+| --- | --- |
+| url | <code>string</code> | 
+| req | <code>Request</code> | 
+
+<a name="Route+process"></a>
+
+### route.process(context, next, [...args])
+**Kind**: instance method of [<code>Route</code>](#Route)  
+
+| Param | Type |
+| --- | --- |
+| context | <code>Object</code> | 
+| next | <code>function</code> | 
+| [...args] | <code>array</code> | 
+
+<a name="parseBody"></a>
+
+## parseBody
 Light body parser
 
-**Kind**: Exported function  
+**Kind**: global variable  
 
 | Param | Type |
 | --- | --- |
 | chunk | <code>string</code> | 
 
-<a name="exp_module_Request--Request+has"></a>
+<a name="has"></a>
 
-### Request#has(key) ⇒ <code>boolean</code> ⏏
+## has ⇒ <code>boolean</code>
 Check if request has parameter or attribute
 
-**Kind**: Exported function  
+**Kind**: global variable  
 
 | Param | Type |
 | --- | --- |
 | key | <code>string</code> | 
 
-<a name="exp_module_Request--Request+get"></a>
+<a name="get"></a>
 
-### Request#get(key) ⇒ <code>\*</code> ⏏
+## get ⇒ <code>\*</code>
 Get parameter or attribute if exists
 
-**Kind**: Exported function  
+**Kind**: global variable  
 
 | Param | Type |
 | --- | --- |
 | key | <code>string</code> | 
 
-<a name="module_Response"></a>
+<a name="status"></a>
 
-## Response
-Response module
-
-
-* [Response](#module_Response)
-    * [Response](#exp_module_Response--Response) ⏏
-    * [Response#status(code, [message])](#exp_module_Response--Response+status) ⇒ <code>Response</code> ⏏
-    * [Response#set(key, value)](#exp_module_Response--Response+set) ⇒ <code>Response</code> ⏏
-    * [Response#write(message, [encoding])](#exp_module_Response--Response+write) ⇒ <code>Response</code> ⏏
-    * [Response#send(data, [encoding])](#exp_module_Response--Response+send) ⏏
-    * [Response#sendFile(filepath, filename, [mimetype], [attachment])](#exp_module_Response--Response+sendFile) ⏏
-    * [Response#json(data, [encoding])](#exp_module_Response--Response+json) ⏏
-    * [Response#redirect(location, [code])](#exp_module_Response--Response+redirect) ⏏
-
-<a name="exp_module_Response--Response"></a>
-
-### Response ⏏
-**Kind**: Exported class  
-<a name="exp_module_Response--Response+status"></a>
-
-### Response#status(code, [message]) ⇒ <code>Response</code> ⏏
+## status ⇒ <code>Response</code>
 Set response status code
 
-**Kind**: Exported function  
+**Kind**: global variable  
 
 | Param | Type | Default |
 | --- | --- | --- |
 | code | <code>number</code> \| <code>string</code> |  | 
-| [message] | <code>string</code> | <code>null</code> | 
+| [message] | <code>string</code> \| <code>null</code> | <code>null</code> | 
 
-<a name="exp_module_Response--Response+set"></a>
+<a name="set"></a>
 
-### Response#set(key, value) ⇒ <code>Response</code> ⏏
+## set ⇒ <code>Response</code>
 Set response header
 
-**Kind**: Exported function  
+**Kind**: global variable  
 
 | Param | Type |
 | --- | --- |
 | key | <code>string</code> | 
 | value | <code>string</code> | 
 
-<a name="exp_module_Response--Response+write"></a>
+<a name="send"></a>
 
-### Response#write(message, [encoding]) ⇒ <code>Response</code> ⏏
-Write into response body
-
-**Kind**: Exported function  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| message | <code>string</code> |  | 
-| [encoding] | <code>string</code> | <code>&quot;&#x27;utf-8&#x27;&quot;</code> | 
-
-<a name="exp_module_Response--Response+send"></a>
-
-### Response#send(data, [encoding]) ⏏
+## send
 Set response body and lock it
 
-**Kind**: Exported function  
+**Kind**: global variable  
 
 | Param | Type | Default |
 | --- | --- | --- |
-| data | <code>\*</code> | <code></code> | 
+| data | <code>\*</code> |  | 
 | [encoding] | <code>string</code> | <code>&quot;&#x27;utf-8&#x27;&quot;</code> | 
+| [callback] | <code>function</code> \| <code>null</code> | <code></code> | 
 
-<a name="exp_module_Response--Response+sendFile"></a>
+<a name="sendFile"></a>
 
-### Response#sendFile(filepath, filename, [mimetype], [attachment]) ⏏
+## sendFile
 Attach file at response
 
-**Kind**: Exported function  
+**Kind**: global variable  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -409,67 +391,59 @@ Attach file at response
 | filename | <code>string</code> |  | 
 | [mimetype] | <code>string</code> | <code>&quot;&#x27;text/plain&#x27;&quot;</code> | 
 | [attachment] | <code>boolean</code> | <code>true</code> | 
+| [callback] | <code>function</code> \| <code>null</code> | <code></code> | 
 
-<a name="exp_module_Response--Response+json"></a>
+<a name="json"></a>
 
-### Response#json(data, [encoding]) ⏏
+## json
 Add json into response body
 
-**Kind**: Exported function  
+**Kind**: global variable  
 
 | Param | Type | Default |
 | --- | --- | --- |
 | data | <code>Object</code> \| <code>Array</code> |  | 
 | [encoding] | <code>string</code> | <code>&quot;&#x27;utf-8&#x27;&quot;</code> | 
+| [callback] | <code>function</code> \| <code>null</code> | <code></code> | 
 
-<a name="exp_module_Response--Response+redirect"></a>
+<a name="redirect"></a>
 
-### Response#redirect(location, [code]) ⏏
+## redirect
 Make response a redirection
 
-**Kind**: Exported function  
+**Kind**: global variable  
 
 | Param | Type | Default |
 | --- | --- | --- |
 | location | <code>string</code> |  | 
 | [code] | <code>number</code> | <code>301</code> | 
+| [callback] | <code>function</code> \| <code>null</code> | <code></code> | 
 
-<a name="module_Route"></a>
+<a name="createApp"></a>
 
-## Route
-Route module
+## createApp()
+Yion module
 
+**Kind**: global function  
+**Example**  
+```js
+const { createApp, createServer } = require('yion')
 
-* [Route](#module_Route)
-    * [Route](#exp_module_Route--Route) ⇐ <code>Middleware</code> ⏏
-    * [Route#_validPattern(url, req)](#exp_module_Route--Route+_validPattern) ⇒ <code>boolean</code> ⏏
-    * [Route#process(req, res, next, [...args])](#exp_module_Route--Route+process) ⏏
+const app = createApp()
+const server = createServer(app)
 
-<a name="exp_module_Route--Route"></a>
+app.get('/', (req, res) => {
+   res.set('Content-Type', 'text/html; charset=utf-8').send('Hello world!')
+})
 
-### Route ⇐ <code>Middleware</code> ⏏
-**Kind**: Exported class  
-**Extends**: <code>Middleware</code>  
-<a name="exp_module_Route--Route+_validPattern"></a>
+server.listen(8080)
+```
+<a name="createServer"></a>
 
-### Route#_validPattern(url, req) ⇒ <code>boolean</code> ⏏
-**Kind**: Exported function  
-**Access**: protected  
-
-| Param | Type |
-| --- | --- |
-| url | <code>string</code> | 
-| req | <code>Request</code> | 
-
-<a name="exp_module_Route--Route+process"></a>
-
-### Route#process(req, res, next, [...args]) ⏏
-**Kind**: Exported function  
+## createServer(...apps) ⇒ <code>Server</code>
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| req | <code>Request</code> | 
-| res | <code>Response</code> | 
-| next | <code>Callback</code> | 
-| [...args] | <code>Array</code> | 
+| ...apps | [<code>Application</code>](#Application) \| <code>Array.&lt;Api&gt;</code> | 
 

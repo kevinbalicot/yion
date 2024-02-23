@@ -1,4 +1,6 @@
-const compose = require('./compose')
+const {parse} = require('node:url')
+
+const compose = require('../src/compose')
 
 class Route {
 
@@ -20,47 +22,30 @@ class Route {
    * @return {boolean}
    */
   _validPattern(url, req) {
-    url = decodeURI(url)
+    const ignoredPrefix = ''
+    const route = `^${this.pattern}$`
+    const keys = this.pattern.match(/{(\w+)}/g) || []
+    const parsedUrl = parse(url, true)
 
-    const route = `^${this.pattern}\/?$`
-    const keys = route.match(/:(\w+)\(.+\)|:(\w+)/g) || []
+    let cleanPattern = route.replace(/\//g, '\\/')
+    cleanPattern = cleanPattern.replace(/{(\w+)}/g, '((?:(?!\\/)[\\W\\w_])+)')
 
-    let pattern = route.replace(/\//g, '\\/')
-    pattern = pattern.replace(/:\w+(\(.+\))/g, '$1')
-    pattern = pattern.replace(/:(\w+)/g, '((?:(?!\\/)[\\W\\w_])+)')
+    const regexp = new RegExp(cleanPattern, 'g')
+    const values = regexp.exec(parsedUrl.pathname.replace(ignoredPrefix, ''))
 
-    const regexp = new RegExp(pattern, 'g')
-    const values = regexp.exec(url)
+    req.query = parsedUrl.query
 
-    let params = []
     if (!!values) {
+      req.params = {}
       keys.forEach((key, index) => {
-        key = key.replace(/:(\w+)\(.+\)|:(\w+)/g, '$1$2').trim()
+        key = key.replace(/{(.+)}/g, '$1').trim()
         req.params[key] = values[index + 1] || null
-      })
+      });
 
       return true
     }
 
     return false
-  }
-
-  generatePath(params = {}, query = {}) {
-    let path = this.pattern
-
-    Object.keys(params).forEach(key => {
-      path = path.replace(`:${key}`, params[key])
-    })
-
-    if (Object.keys(query).length > 0) {
-      path += '?'
-      Object.keys(query).forEach(key => {
-        path += `${key}=${query[key]}&`
-      })
-      path = path.substring(0, path.length - 1)
-    }
-
-    return path
   }
 
   /**
