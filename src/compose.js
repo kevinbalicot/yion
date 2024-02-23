@@ -10,7 +10,7 @@
  */
 
  /**
-  * @param {Array<Middleware>} middlewares
+  * @param {Middleware[]} middlewares
   * @param {Object} context
   * @param {Function|null} [next=null]
   *

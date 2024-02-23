@@ -18,7 +18,7 @@ const { createApp, createServer } = require('yion')
 const app = createApp()
 const server = createServer(app)
 
-app.get('/', ({req, res}) => {
+app.get('/', ({ req, res }) => {
   res.set('Content-Type', 'text/html; charset=utf-8').send('Hello world!');
 });
 
@@ -29,16 +29,16 @@ server.listen(8080).on('listening', () => {
 
 ### Router
 
- * `app.get(pattern, callback);`
- * `app.post(pattern, callback);`
- * `app.put(pattern, callback);`
- * `app.delete(pattern, callback);`
- * `app.patch(pattern, callback);`
+ * `app.get(pattern, ...callback);`
+ * `app.post(pattern, ...callback);`
+ * `app.put(pattern, ...callback);`
+ * `app.delete(pattern, ...callback);`
+ * `app.patch(pattern, ...callback);`
 
 #### Parameters
 
 ```javascript
-app.get('/article/:id', ({res, res}) => {
+app.get('/article/:id', ({ res, res }) => {
   let id = req.params.id
 })
 ```
@@ -46,7 +46,7 @@ app.get('/article/:id', ({res, res}) => {
 You can use regexp like this
 
 ```javascript
-app.get('/article/:id([0-9]{2})', ({res, res}) => {
+app.get('/article/:id([0-9]{2})', ({ res, res }) => {
   let id = req.params.id
 })
 ```
@@ -54,7 +54,7 @@ app.get('/article/:id([0-9]{2})', ({res, res}) => {
 And of course both
 
 ```javascript
-app.get('/article/:id([0-9]{2})/:name', ({res, res}) => {
+app.get('/article/:id([0-9]{2})/:name', ({ res, res }) => {
   let id = req.params.id
   let name = req.params.name
 })
@@ -65,7 +65,7 @@ app.get('/article/:id([0-9]{2})/:name', ({res, res}) => {
 ```javascript
 const parseBody = require('yion/middlewares/parse-body')
 
-app.post('/article', parseBody, ({res, res}) => {
+app.post('/article', parseBody, ({ res, res }) => {
   let title = req.body.title || null
   let content = req.body.content || null
 })
@@ -77,7 +77,7 @@ Note : The body parser is very simple, it parse only `x-www-form-urlencoded` and
 ```javascript
 // GET /articles?order=title&direction=asc
 
-app.get('/article', ({res, res}) => {
+app.get('/article', ({ res, res }) => {
   let order = req.query.order || 'created_at'
   let direction = req.query.direction || 'desc'
 })
@@ -86,7 +86,7 @@ app.get('/article', ({res, res}) => {
 ### Middlewares
 
 ```javascript
-app.use(({req, res}, next) => {
+app.use(({ req, res }, next) => {
   // do stuff
 
   next()
@@ -95,13 +95,13 @@ app.use(({req, res}, next) => {
 You can pass arguments to next middleware.
 
 ```javascript
-app.use((req, res, next) => {
+app.use(({ req, res }, next) => {
   // do stuff
     
   next('foo', { foo: 'bar' })
 })
 
-app.get('/', ({req, res}, next, arg1, arg2) => {
+app.get('/', ({ req, res }, next, arg1, arg2) => {
   console.log(arg1) // 'foo'
   console.log(arg2) // { foo: 'bar' }
 
@@ -112,11 +112,11 @@ app.get('/', ({req, res}, next, arg1, arg2) => {
 Every thing is a middleware
 
 ```js
-app.get('/', ({req, res}, next) => {
+app.get('/', ({ req, res }, next) => {
   next({ foo: 'bar' })
 })
 
-app.get('/', ({req, res}, next, foo) => {
+app.get('/', ({ req, res }, next, foo) => {
   res.send(foo) // 'bar'
 })
 ```
@@ -126,12 +126,12 @@ And you can compose middlewares into middleware
 ```javascript
 app.get(
   '/admin',
-  ({req, res}, next) => {
+  ({ req, res }, next) => {
     const session = getSession(req)
 
     next(session)
   },
-  ({req, res}, next, session) => {
+  ({ req, res }, next, session) => {
     res.send(`Hello ${session.username}!`)
   }
 )
@@ -169,16 +169,18 @@ app.link('/img', __dirname + '/images', cache) // add cache control
 
 ### Plugins
 
+Example with `body-parser` plugin [https://github.com/boutdecode/body-parser](https://github.com/boutdecode/body-parser)
+
 ```javascript
 const { createApp, createServer } = require('yion')
-const bodyParser = require('yion/plugins/body-parser')
+const bodyParser = require('@boutdecode/body-parser')
 
 const app = createApp()
 const server = createServer(app)
 
 use(bodyParser())
 
-app.post('/file', (req, res) => {
+app.post('/file', ({ req, res }) => {
   if (!req.body.file) {
     return res.status(500).send()
   }
@@ -208,7 +210,7 @@ And plugin add features into application, example :
 const moment = require('moment')
 
 const myMomentPlugin = (momentFormat) => (context, next) => {
-  context.moment = (date) => moment(date, momentFormat)
+  context.set('moment', (date) => moment(date, momentFormat))
 
   next(); // use next callback to call next plugin
 }
@@ -219,18 +221,18 @@ And into your Yion application
 ```javascript
 app.use(myMomentPlugin('YYYY-MM-DD'))
 
-app.get('/what-time-is-it', ({moment}) => {
+app.get('/what-time-is-it', ({ moment }) => {
   res.send(moment().format())
 })
 ```
 
 #### Plugins :
 
-* `body parser` : Body parser `yion/plugins/body-parser`
-* `logger` : Logger `yion/plugins/logger`
-* `encoding` : Encoding with zlib `yion/plugins/encoding`
-* `session` : Session `yion/plugins/session`
-* `open api doc` : Open API Doc `yion/plugins/open-api-doc`
+* `body parser` : [Body parser plugin](https://github.com/boutdecode/body-parser)
+* `logger` : [Logger plugin](https://github.com/boutdecode/logger)
+* `encoding` : [Encoding plugin](https://github.com/boutdecode/encoding)
+* `session` : [Session plugin](https://github.com/boutdecode/session)
+* `open api` : [Open API plugin](https://github.com/boutdecode/open-api)
 
 ### Documentations and API Reference
 

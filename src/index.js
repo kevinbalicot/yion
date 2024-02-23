@@ -8,7 +8,6 @@ const wrapResponse = require('./response')
 
 const Context = require('./context')
 const Application = require('./application')
-const Api = require('../api/api')
 
 /**
  * Yion module
@@ -27,10 +26,9 @@ const Api = require('../api/api')
  */
 
 const createApp = () => new Application()
-const createApi = (options) => new Api(options)
 
 /**
- * @param {Application|Api[]} apps
+ * @param {Middleware[]} apps
  *
  * @return {Server}
  */
@@ -54,4 +52,4 @@ const createServer = (...apps) => {
   return server
 }
 
-module.exports = {createApp, createApi, createServer}
+module.exports = {createApp, createServer}
