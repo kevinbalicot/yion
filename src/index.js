@@ -34,7 +34,6 @@ const createApp = () => new Application()
  */
 const createServer = (...apps) => {
   const server = http.createServer()
-
   server.on('request', (request, response) => {
     const req = wrapRequest(request)
     const res = wrapResponse(response)
@@ -43,9 +42,9 @@ const createServer = (...apps) => {
     try {
       compose(apps, context)()
     } catch (error) {
-      response.statusCode = error.code || 500
-      response.statusMessage = error.message || 'Internal Server Error'
-      response.end(`${error.name} : ${error.message} \n ${error.stack}`)
+      res
+        .status(error.code || 500, 'Internal error')
+        .send(`${error.name} : ${error.message} \n ${error.stack}`)
     }
   })
 

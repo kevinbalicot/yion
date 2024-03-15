@@ -117,7 +117,7 @@ class Link extends Middleware {
    * @param {array} [args]
    */
   process(context, next, ...args) {
-    const { res } = context
+    const { res, req } = context
 
     const url = decodeURI(req.url)
     let targetFile = this._validPattern(url)
