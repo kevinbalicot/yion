@@ -37,6 +37,14 @@ module.exports = function (response) {
      */
     set: {
       value: function (key, value) {
+        if (typeof key === 'object') {
+          for (const k in key) {
+            this.setHeader(k, key[k])
+          }
+
+          return this
+        }
+
         this.setHeader(key, value)
 
         return this
